@@ -1,7 +1,7 @@
 // ========================================================
 // DUOLINGO HINDI GRADE 2 PREP APP CONTROLLER
 // Universal Wisdom School - Summative Assessment 1
-// Rigorous Assessment: No Answer Leaks Before Check
+// Zero-Duplicate Question Selection & High-Variety Sampler
 // ========================================================
 
 class AppState {
@@ -62,9 +62,25 @@ class AppState {
     this.hearts = this.maxHearts;
     this.saveState();
   }
+
+  resetProgress() {
+    this.hearts = 5;
+    this.streak = 1;
+    this.xp = 0;
+    this.completedLessons = {};
+    this.lastExamScore = null;
+    try {
+      localStorage.removeItem('hindi_duo_state');
+    } catch (e) {
+      console.warn('Storage clear failed', e);
+    }
+  }
 }
 
 const state = new AppState();
+
+// Track recently shown item IDs across rounds to maximize variety
+let recentShownItemIds = [];
 
 // ================= Game Session Manager =================
 class GameSession {
@@ -88,7 +104,7 @@ class GameSession {
     this.questions = [];
     if (this.isExam) {
       // 12 Questions covering all SA-1 Syllabus Areas (20M Theory + 5M Listening + 5M Speaking)
-      // 1. Picture Identification (3 Qs - Theory)
+      // 1. Picture Identification (3 Qs - Theory) - GUARANTEED UNIQUE
       const shuffledItems = shuffleArray(HINDI_DATA.textbookItems);
       shuffledItems.slice(0, 3).forEach(item => {
         this.questions.push({
@@ -101,7 +117,7 @@ class GameSession {
         });
       });
 
-      // 2. Missing Letter Train (3 Qs - Theory)
+      // 2. Missing Letter Train (3 Qs - Theory) - GUARANTEED UNIQUE
       const shuffledSeq = shuffleArray(HINDI_DATA.trainSequences);
       shuffledSeq.slice(0, 3).forEach(seq => {
         this.questions.push({
@@ -114,9 +130,9 @@ class GameSession {
         });
       });
 
-      // 3. Swar vs Vyanjan Sorting (2 Qs - Theory)
-      const swarSample = getRandomItem(HINDI_DATA.swarList);
-      const vyanjanSample = getRandomItem(HINDI_DATA.vyanjanList);
+      // 3. Swar vs Vyanjan Sorting (2 Qs - Theory) - 1 Distinct Swar + 1 Distinct Vyanjan
+      const swarSample = shuffleArray(HINDI_DATA.swarList)[0];
+      const vyanjanSample = shuffleArray(HINDI_DATA.vyanjanList)[0];
       this.questions.push({
         type: 'sort',
         section: 'theory',
@@ -132,7 +148,7 @@ class GameSession {
         answer: 'vyanjan'
       });
 
-      // 4. Listening Dictation (2 Qs - Listening 5M)
+      // 4. Listening Dictation (2 Qs - Listening 5M) - GUARANTEED UNIQUE
       const shuffledListen = shuffleArray(HINDI_DATA.listeningQuestions);
       shuffledListen.slice(0, 2).forEach(l => {
         this.questions.push({
@@ -144,7 +160,7 @@ class GameSession {
         });
       });
 
-      // 5. Speaking Recitation (2 Qs - Speaking 5M)
+      // 5. Speaking Recitation (2 Qs - Speaking 5M) - GUARANTEED UNIQUE
       const shuffledSpeak = shuffleArray(HINDI_DATA.speakingCards);
       shuffledSpeak.slice(0, 2).forEach(s => {
         this.questions.push({
@@ -158,17 +174,30 @@ class GameSession {
 
       this.questions = shuffleArray(this.questions);
     } else {
-      // Individual Mode Practice (5 Questions)
-      for (let i = 0; i < 5; i++) {
-        if (this.mode === 'picture') {
-          let pool = HINDI_DATA.textbookItems;
-          if (this.filter === 'swar') pool = pool.filter(p => p.category === 'swar');
-          if (this.filter === 'k_ch') pool = pool.filter(p => ['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ'].includes(p.letter));
-          if (this.filter === 't_ta') pool = pool.filter(p => ['ट','ठ','ड','ढ','ण','त','थ','द','ध','न'].includes(p.letter));
-          if (this.filter === 'p_sh') pool = pool.filter(p => ['प','फ','ब','भ','म','य','र','ल','व','श'].includes(p.letter));
-          if (!pool.length) pool = HINDI_DATA.textbookItems;
+      // Individual Mode Practice (5 Questions) - STRICT SAMPLING WITHOUT REPLACEMENT
+      if (this.mode === 'picture') {
+        let pool = HINDI_DATA.textbookItems;
+        if (this.filter === 'swar') pool = pool.filter(p => p.category === 'swar');
+        if (this.filter === 'k_ch') pool = pool.filter(p => ['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ'].includes(p.letter));
+        if (this.filter === 't_ta') pool = pool.filter(p => ['ट','ठ','ड','ढ','ण','त','थ','द','ध','न'].includes(p.letter));
+        if (this.filter === 'p_sh') pool = pool.filter(p => ['प','फ','ब','भ','म','य','र','ल','व','श'].includes(p.letter));
+        if (!pool.length) pool = HINDI_DATA.textbookItems;
 
-          const item = getRandomItem(pool);
+        // Deprioritize recently shown items across rounds so the variety is high
+        const unshown = pool.filter(p => !recentShownItemIds.includes(p.id));
+        const candidatePool = unshown.length >= 5 ? unshown : pool;
+        const shuffledPool = shuffleArray(candidatePool);
+
+        // Select 5 unique items
+        const selected = shuffledPool.slice(0, Math.min(5, shuffledPool.length));
+
+        // Update recently shown queue (up to 12 items)
+        selected.forEach(item => {
+          recentShownItemIds.push(item.id);
+          if (recentShownItemIds.length > 12) recentShownItemIds.shift();
+        });
+
+        selected.forEach(item => {
           this.questions.push({
             type: 'picture',
             section: 'theory',
@@ -177,8 +206,11 @@ class GameSession {
             answer: item.letter,
             options: this.generateOptions(item.letter)
           });
-        } else if (this.mode === 'train') {
-          const seq = getRandomItem(HINDI_DATA.trainSequences);
+        });
+      } else if (this.mode === 'train') {
+        const shuffledSeq = shuffleArray(HINDI_DATA.trainSequences);
+        const selected = shuffledSeq.slice(0, 5);
+        selected.forEach(seq => {
           this.questions.push({
             type: 'train',
             section: 'theory',
@@ -187,26 +219,38 @@ class GameSession {
             answer: seq.answer,
             options: seq.options
           });
-        } else if (this.mode === 'sort') {
-          const isSwar = Math.random() > 0.5;
-          const letter = isSwar ? getRandomItem(HINDI_DATA.swarList) : getRandomItem(HINDI_DATA.vyanjanList);
+        });
+      } else if (this.mode === 'sort') {
+        const shuffledSwar = shuffleArray(HINDI_DATA.swarList);
+        const shuffledVyanjan = shuffleArray(HINDI_DATA.vyanjanList);
+        const items = [
+          { letter: shuffledSwar[0], answer: 'swar' },
+          { letter: shuffledVyanjan[0], answer: 'vyanjan' },
+          { letter: shuffledSwar[1], answer: 'swar' },
+          { letter: shuffledVyanjan[1], answer: 'vyanjan' },
+          { letter: shuffledSwar[2], answer: 'swar' }
+        ];
+        shuffleArray(items).forEach(it => {
           this.questions.push({
             type: 'sort',
             section: 'theory',
             sectionLabel: 'Vowel vs Consonant',
-            letter: letter,
-            answer: isSwar ? 'swar' : 'vyanjan'
+            letter: it.letter,
+            answer: it.answer
           });
-        } else if (this.mode === 'match') {
-          const shuffled = shuffleArray(HINDI_DATA.textbookItems).slice(0, 4);
-          this.questions.push({
-            type: 'match',
-            section: 'theory',
-            sectionLabel: 'Match Pairs',
-            pairs: shuffled
-          });
-        } else if (this.mode === 'listening') {
-          const l = getRandomItem(HINDI_DATA.listeningQuestions);
+        });
+      } else if (this.mode === 'match') {
+        const shuffled = shuffleArray(HINDI_DATA.textbookItems).slice(0, 4);
+        this.questions.push({
+          type: 'match',
+          section: 'theory',
+          sectionLabel: 'Match Pairs',
+          pairs: shuffled
+        });
+      } else if (this.mode === 'listening') {
+        const shuffledListen = shuffleArray(HINDI_DATA.listeningQuestions);
+        const selected = shuffledListen.slice(0, 5);
+        selected.forEach(l => {
           this.questions.push({
             type: 'listening',
             section: 'listening',
@@ -214,8 +258,11 @@ class GameSession {
             ...l,
             answer: l.targetLetter
           });
-        } else if (this.mode === 'speaking') {
-          const s = getRandomItem(HINDI_DATA.speakingCards);
+        });
+      } else if (this.mode === 'speaking') {
+        const shuffledSpeak = shuffleArray(HINDI_DATA.speakingCards);
+        const selected = shuffledSpeak.slice(0, 5);
+        selected.forEach(s => {
           this.questions.push({
             type: 'speaking',
             section: 'speaking',
@@ -223,7 +270,7 @@ class GameSession {
             ...s,
             answer: s.word
           });
-        }
+        });
       }
     }
   }
@@ -250,11 +297,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initUI() {
   const soundBtn = document.getElementById('sound-toggle-btn');
+  const settingsSoundBtn = document.getElementById('settings-sound-btn');
+
+  function updateSoundUI(isMuted) {
+    if (soundBtn) {
+      soundBtn.querySelector('.sound-label').textContent = isMuted ? 'Mute' : 'Sound';
+      soundBtn.style.opacity = isMuted ? '0.5' : '1';
+    }
+    if (settingsSoundBtn) {
+      settingsSoundBtn.textContent = isMuted ? 'Sound: OFF' : 'Sound: ON';
+    }
+  }
+
   if (soundBtn) {
     soundBtn.addEventListener('click', () => {
       const isMuted = soundEngine.toggleMute();
-      soundBtn.querySelector('.sound-label').textContent = isMuted ? 'Mute' : 'Sound';
-      soundBtn.style.opacity = isMuted ? '0.5' : '1';
+      updateSoundUI(isMuted);
     });
   }
 
@@ -266,6 +324,68 @@ function initUI() {
         renderTopBar();
         soundEngine.playCorrect();
         alert('💖 All 5 Hearts have been refilled! Keep going!');
+      }
+    });
+  }
+
+  // Settings Modal Controls
+  const settingsBtn = document.getElementById('settings-toggle-btn');
+  const settingsModal = document.getElementById('settings-modal');
+  const closeSettingsBtn = document.getElementById('close-settings-btn');
+  const settingsRefillBtn = document.getElementById('settings-refill-btn');
+  const resetProgressBtn = document.getElementById('reset-progress-btn');
+
+  if (settingsBtn && settingsModal) {
+    settingsBtn.addEventListener('click', () => {
+      soundEngine.playTap();
+      settingsModal.classList.add('active');
+    });
+  }
+
+  if (closeSettingsBtn && settingsModal) {
+    closeSettingsBtn.addEventListener('click', () => {
+      soundEngine.playTap();
+      settingsModal.classList.remove('active');
+    });
+  }
+
+  if (settingsModal) {
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) {
+        settingsModal.classList.remove('active');
+      }
+    });
+  }
+
+  if (settingsSoundBtn) {
+    settingsSoundBtn.addEventListener('click', () => {
+      const isMuted = soundEngine.toggleMute();
+      updateSoundUI(isMuted);
+    });
+  }
+
+  if (settingsRefillBtn) {
+    settingsRefillBtn.addEventListener('click', () => {
+      state.refillHearts();
+      renderTopBar();
+      soundEngine.playCorrect();
+      alert('💖 All 5 Hearts have been refilled!');
+    });
+  }
+
+  if (resetProgressBtn) {
+    resetProgressBtn.addEventListener('click', () => {
+      const confirmed = confirm(
+        '⚠️ Are you sure you want to reset all progress?\n\nThis will reset:\n• All stars & completed lessons\n• XP Gems & Daily streak\n• SA-1 Mock Exam Report Card\n\nThis cannot be undone.'
+      );
+      if (confirmed) {
+        state.resetProgress();
+        renderTopBar();
+        renderPath();
+        renderReportCard();
+        if (settingsModal) settingsModal.classList.remove('active');
+        soundEngine.playIncorrect();
+        alert('✨ Progress has been completely reset. You have a clean fresh start!');
       }
     });
   }
@@ -419,7 +539,7 @@ function renderCurrentQuestion() {
   }
 }
 
-// 1. Picture Mode Renderer (Does NOT leak word or poem before checking!)
+// 1. Picture Mode Renderer (No Leaks Before Check)
 function renderPictureQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
@@ -812,7 +932,6 @@ document.getElementById('check-answer-btn').addEventListener('click', () => {
     const revealSection = document.getElementById('picture-reveal-section');
     if (revealSection) {
       revealSection.style.display = 'block';
-      // Speak the word now to reinforce pronunciation
       soundEngine.speakHindi(q.item.word);
     }
     const listeningWordReveal = document.getElementById('listening-reveal-word');

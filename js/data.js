@@ -1,7 +1,7 @@
 // ========================================================
 // HINDI SA-1 SYLLABUS & TEXTBOOK (बाल पतवार २) DATA ENGINE
 // Universal Wisdom School - Grade 2 (Summative Assessment 1)
-// Rigorous Assessment Design: Zero Answer Leaks Before Check
+// Comprehensive Vocabulary Bank with Zero Duplicates
 // ========================================================
 
 const HINDI_DATA = {
@@ -27,9 +27,180 @@ const HINDI_DATA = {
   // Extra joint & special consonants featured in textbook
   extraTextbookLetters: ['ड़', 'ढ़', 'क्ष', 'त्र', 'ज्ञ', 'श्र', 'स'],
 
-  // 3. Textbook Illustrated Vocabulary (Directly from बाल पतवार २)
+  // 3. Comprehensive Illustrated Vocabulary Bank (50+ Unique Items)
   textbookItems: [
-    // --- ख ---
+    // ================= स्वर (Vowels) =================
+    {
+      id: 'swar_a',
+      letter: 'अ',
+      word: 'अनार',
+      englishName: 'Pomegranate',
+      englishWord: 'Anaar (Pomegranate)',
+      iconKey: 'pomegranate',
+      emoji: '🍎',
+      rhyme: "'अ' से अनार, लाल-लाल दानों वाला।",
+      rhymeEn: "A for Pomegranate, filled with ruby seeds.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_aa',
+      letter: 'आ',
+      word: 'आम',
+      englishName: 'Mango',
+      englishWord: 'Aam (Mango)',
+      iconKey: 'mango',
+      emoji: '🥭',
+      rhyme: "'आ' से आम, फलों का प्यारा राजा।",
+      rhymeEn: "Aa for Mango, the sweet king of fruits.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_i',
+      letter: 'इ',
+      word: 'इमली',
+      englishName: 'Tamarind',
+      englishWord: 'Imli (Tamarind)',
+      iconKey: 'tamarind',
+      emoji: '🫘',
+      rhyme: "'इ' से इमली, खट्टी-मीठी लगती प्यारी।",
+      rhymeEn: "I for Tamarind, tangy and sweet.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_ee',
+      letter: 'ई',
+      word: 'ईख',
+      englishName: 'Sugarcane',
+      englishWord: 'Eekh (Sugarcane)',
+      iconKey: 'sugarcane',
+      emoji: '🎋',
+      rhyme: "'ई' से ईख, मीठा-मीठा गन्ना।",
+      rhymeEn: "Ee for Sugarcane, tall and sweet.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_u',
+      letter: 'उ',
+      word: 'उल्लू',
+      englishName: 'Owl',
+      englishWord: 'Ullu (Owl)',
+      iconKey: 'owl',
+      emoji: '🦉',
+      rhyme: "'उ' से उल्लू, रात को जागे, दिन में सोए।",
+      rhymeEn: "U for Owl, awake at night with watchful eyes.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_oo',
+      letter: 'ऊ',
+      word: 'ऊन',
+      englishName: 'Ball of Wool',
+      englishWord: 'Oon (Wool)',
+      iconKey: 'wool',
+      emoji: '🧶',
+      rhyme: "'ऊ' से ऊन, दादी बुनती स्वेटर नया।",
+      rhymeEn: "Oo for Wool, knitting warm winter sweaters.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_ri',
+      letter: 'ऋ',
+      word: 'ऋषि',
+      englishName: 'Sage',
+      englishWord: 'Rishi (Sage)',
+      iconKey: 'sage',
+      emoji: '🧘',
+      rhyme: "'ऋ' से ऋषि, वन में तपस्या करने वाले।",
+      rhymeEn: "Ri for Sage, meditating with wisdom.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_e',
+      letter: 'ए',
+      word: 'एड़ी',
+      englishName: 'Heel',
+      englishWord: 'Aedi (Heel)',
+      iconKey: null,
+      emoji: '🦶',
+      rhyme: "'ए' से एड़ी, पैर के नीचे होती।",
+      rhymeEn: "E for Heel, supporting every step.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_ai',
+      letter: 'ऐ',
+      word: 'ऐनक',
+      englishName: 'Spectacles',
+      englishWord: 'Ainak (Spectacles)',
+      iconKey: 'glasses',
+      emoji: '👓',
+      rhyme: "'ऐ' से ऐनक, साफ दिखाए दुनिया सारी।",
+      rhymeEn: "Ai for Glasses, seeing clearly and bright.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_o',
+      letter: 'ओ',
+      word: 'ओखली',
+      englishName: 'Mortar & Pestle',
+      englishWord: 'Okhli (Mortar)',
+      iconKey: 'mortar',
+      emoji: '🥣',
+      rhyme: "'ओ' से ओखली, कूटो इसमें मसाले।",
+      rhymeEn: "O for Mortar, grinding spices fresh.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_au',
+      letter: 'औ',
+      word: 'औरत',
+      englishName: 'Woman',
+      englishWord: 'Aurat (Woman)',
+      iconKey: 'woman',
+      emoji: '👩',
+      rhyme: "'औ' से औरत, ममता की मूरत।",
+      rhymeEn: "Au for Woman, caring and kind.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+    {
+      id: 'swar_am',
+      letter: 'अं',
+      word: 'अंगूर',
+      englishName: 'Grapes',
+      englishWord: 'Angoor (Grapes)',
+      iconKey: 'grapes',
+      emoji: '🍇',
+      rhyme: "'अं' से अंगूर, खट्टे-मीठे गुच्छेदार।",
+      rhymeEn: "Am for Grapes, juicy clusters on the vine.",
+      category: 'swar',
+      isFromTextbook: true
+    },
+
+    // ================= क वर्ग =================
+    {
+      id: 'k_1',
+      letter: 'क',
+      word: 'कमल',
+      englishName: 'Lotus Flower',
+      englishWord: 'Kamal (Lotus)',
+      iconKey: 'lotus',
+      emoji: '🪷',
+      rhyme: "'क' से कमल, भारत का राष्ट्रीय फूल।",
+      rhymeEn: "Ka for Lotus, the beautiful national flower.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
     {
       id: 'kh_1',
       letter: 'ख',
@@ -69,8 +240,73 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
+    {
+      id: 'g_1',
+      letter: 'ग',
+      word: 'गमला',
+      englishName: 'Flower Pot',
+      englishWord: 'Gamla (Flower Pot)',
+      iconKey: null,
+      emoji: '🪴',
+      rhyme: "'ग' से गमला, फूल खिलाए प्यारा-प्यारा।",
+      rhymeEn: "Ga for Flower Pot, where blooming plants grow.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'gh_1',
+      letter: 'घ',
+      word: 'घर',
+      englishName: 'House',
+      englishWord: 'Ghar (House)',
+      iconKey: null,
+      emoji: '🏠',
+      rhyme: "'घ' से घर, प्यारा-प्यारा हमारा घर।",
+      rhymeEn: "Gha for House, our warm and sweet home.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'nga_1',
+      letter: 'ङ',
+      word: 'कंघी',
+      englishName: 'Comb',
+      englishWord: 'Kanghi (Comb)',
+      iconKey: null,
+      emoji: '🪮',
+      rhyme: "'ङ' ध्वनि कंघी में समाई, बालों को सुंदर बनाई।",
+      rhymeEn: "Nga sound in Comb, styling hair nicely.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'nga_2',
+      letter: 'ङ',
+      word: 'कंगन',
+      englishName: 'Bangles',
+      englishWord: 'Kangan (Bangles)',
+      iconKey: null,
+      emoji: '⭕',
+      rhyme: "'ङ' ध्वनि कंगन में खनके, हाथों की शोभा चमके।",
+      rhymeEn: "Nga sound in Bangles, sparkling on the wrists.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
 
-    // --- छ ---
+    // ================= च वर्ग =================
+    {
+      id: 'ch_1',
+      letter: 'च',
+      word: 'चम्मच',
+      englishName: 'Spoon',
+      englishWord: 'Chammach (Spoon)',
+      iconKey: null,
+      emoji: '🥄',
+      rhyme: "'च' से चम्मच, खीर खाओ झटपट।",
+      rhymeEn: "Cha for Spoon, eating delicious kheer.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
     {
       id: 'chh_1',
       letter: 'छ',
@@ -97,36 +333,47 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- ङ ---
     {
-      id: 'nga_1',
-      letter: 'ङ',
-      word: 'कंघी',
-      englishName: 'Comb',
-      englishWord: 'Kanghi (Comb)',
-      iconKey: 'comb',
-      emoji: '🪮',
-      rhyme: "'ङ' ध्वनि कंघी में समाई, बालों को सुंदर बनाई।",
-      rhymeEn: "Nga sound in Comb, styling hair nicely.",
+      id: 'j_1',
+      letter: 'ज',
+      word: 'जग',
+      englishName: 'Water Jug',
+      englishWord: 'Jag (Jug)',
+      iconKey: null,
+      emoji: '🫖',
+      rhyme: "'ज' से जग, पानी भरा शीतल।",
+      rhymeEn: "Ja for Jug, filled with cool water.",
       category: 'vyanjan',
       isFromTextbook: true
     },
     {
-      id: 'nga_2',
-      letter: 'ङ',
-      word: 'कंगन',
-      englishName: 'Bangles',
-      englishWord: 'Kangan (Bangles)',
-      iconKey: 'bangles',
-      emoji: '⭕',
-      rhyme: "'ङ' ध्वनि कंगन में खनके, हाथों की शोभा चमके।",
-      rhymeEn: "Nga sound in Bangles, sparkling on the wrists.",
+      id: 'jh_1',
+      letter: 'झ',
+      word: 'झंडा',
+      englishName: 'National Flag',
+      englishWord: 'Jhanda (Flag)',
+      iconKey: null,
+      emoji: '🇮🇳',
+      rhyme: "'झ' से झंडा, तिरंगा हमारी शान।",
+      rhymeEn: "Jha for Flag, tricolor flying high.",
       category: 'vyanjan',
       isFromTextbook: true
     },
 
-    // --- ड ---
+    // ================= ट वर्ग =================
+    {
+      id: 't_1',
+      letter: 'ट',
+      word: 'टमाटर',
+      englishName: 'Tomato',
+      englishWord: 'Tamaatar (Tomato)',
+      iconKey: 'tomato',
+      emoji: '🍅',
+      rhyme: "'ट' से टमाटर, लाल-लाल गोल-मटोल।",
+      rhymeEn: "Ta for Tomato, round red and fresh.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
     {
       id: 'd_1',
       letter: 'ड',
@@ -140,8 +387,6 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- ढ ---
     {
       id: 'dh_1',
       letter: 'ढ',
@@ -168,8 +413,6 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- ण ---
     {
       id: 'na_1',
       letter: 'ण',
@@ -184,7 +427,20 @@ const HINDI_DATA = {
       isFromTextbook: true
     },
 
-    // --- थ ---
+    // ================= त वर्ग =================
+    {
+      id: 'ta_1',
+      letter: 'त',
+      word: 'तरबूज',
+      englishName: 'Watermelon',
+      englishWord: 'Tarbooj (Watermelon)',
+      iconKey: null,
+      emoji: '🍉',
+      rhyme: "'त' से तरबूज, मीठा रसदार फल।",
+      rhymeEn: "Ta for Watermelon, sweet juicy summer fruit.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
     {
       id: 'th_1',
       letter: 'थ',
@@ -211,8 +467,6 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- द ---
     {
       id: 'da_1',
       letter: 'द',
@@ -226,8 +480,60 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
+    {
+      id: 'dh_bow',
+      letter: 'ध',
+      word: 'धनुष',
+      englishName: 'Bow',
+      englishWord: 'Dhanush (Bow)',
+      iconKey: 'arrow',
+      emoji: '🏹',
+      rhyme: "'ध' से धनुष, बाण चलाए दूर।",
+      rhymeEn: "Dha for Bow, launching arrows into the sky.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'n_1',
+      letter: 'न',
+      word: 'नल',
+      englishName: 'Water Tap',
+      englishWord: 'Nal (Water Tap)',
+      iconKey: null,
+      emoji: '🚰',
+      rhyme: "'न' से नल, टप-टप बहता निर्मल जल।",
+      rhymeEn: "Na for Tap, saving every drop of clean water.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
 
-    // --- ब ---
+    // ================= प वर्ग =================
+    {
+      id: 'p_1',
+      letter: 'प',
+      word: 'पतंग',
+      englishName: 'Kite',
+      englishWord: 'Patang (Kite)',
+      iconKey: 'kite',
+      emoji: '🪁',
+      rhyme: "'प' से पतंग, उड़े आकाश में उमंग।",
+      rhymeEn: "Pa for Kite, soaring high in the blue breeze.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'ph_1',
+      letter: 'फ',
+      word: 'फूल',
+      englishName: 'Flower',
+      englishWord: 'Phool (Flower)',
+      iconKey: 'flower',
+      emoji: '🌸',
+      rhyme: "'फ' से फूल, बगिया की खुशबू।",
+      rhymeEn: "Pha for Flower, blooming bright in the garden.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
     {
       id: 'b_1',
       letter: 'ब',
@@ -267,23 +573,34 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- फ ---
     {
-      id: 'ph_1',
-      letter: 'फ',
-      word: 'फूल',
-      englishName: 'Flower',
-      englishWord: 'Phool (Flower)',
-      iconKey: 'flower',
-      emoji: '🌸',
-      rhyme: "'फ' से फूल, बगिया की खुशबू।",
-      rhymeEn: "Pha for Flower, blooming bright in the garden.",
+      id: 'bh_1',
+      letter: 'भ',
+      word: 'भालू',
+      englishName: 'Bear',
+      englishWord: 'Bhaalu (Bear)',
+      iconKey: null,
+      emoji: '🐻',
+      rhyme: "'भ' से भालू, जंगल का प्यारा भालू।",
+      rhymeEn: "Bha for Bear, loving sweet honeycomb.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'm_1',
+      letter: 'म',
+      word: 'मछली',
+      englishName: 'Fish',
+      englishWord: 'Machhli (Fish)',
+      iconKey: 'fish',
+      emoji: '🐟',
+      rhyme: "'म' से मछली, जल की रानी है।",
+      rhymeEn: "Ma for Fish, swimming free in the water.",
       category: 'vyanjan',
       isFromTextbook: true
     },
 
-    // --- य ---
+    // ================= य से श =================
     {
       id: 'y_1',
       letter: 'य',
@@ -297,8 +614,60 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
+    {
+      id: 'r_1',
+      letter: 'र',
+      word: 'रथ',
+      englishName: 'Chariot',
+      englishWord: 'Rath (Chariot)',
+      iconKey: null,
+      emoji: '🛞',
+      rhyme: "'र' से रथ, पहियों पर दौड़े तेज।",
+      rhymeEn: "Ra for Chariot, royal wheels on the move.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'l_1',
+      letter: 'ल',
+      word: 'लट्टू',
+      englishName: 'Spinning Top',
+      englishWord: 'Lattu (Spinning Top)',
+      iconKey: null,
+      emoji: '🪀',
+      rhyme: "'ल' से लट्टू, गोल-गोल घूमे।",
+      rhymeEn: "La for Spinning Top, whirling fast on the floor.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'v_1',
+      letter: 'व',
+      word: 'वन',
+      englishName: 'Forest',
+      englishWord: 'Van (Forest)',
+      iconKey: null,
+      emoji: '🌲',
+      rhyme: "'व' से वन, हरे-भरे पेड़ों का उपवन।",
+      rhymeEn: "Va for Forest, lush with tall green trees.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
+    {
+      id: 'sh_1',
+      letter: 'श',
+      word: 'शलजम',
+      englishName: 'Turnip',
+      englishWord: 'Shaljam (Turnip)',
+      iconKey: null,
+      emoji: '🧅',
+      rhyme: "'श' से शलजम, सेहतमंद सब्ज़ी।",
+      rhymeEn: "Sha for Turnip, healthy root vegetable.",
+      category: 'vyanjan',
+      isFromTextbook: true
+    },
 
-    // --- स ---
+    // ================= संयुक्त व विशेष वर्ण =================
     {
       id: 's_1',
       letter: 'स',
@@ -325,8 +694,6 @@ const HINDI_DATA = {
       category: 'vyanjan',
       isFromTextbook: true
     },
-
-    // --- संयुक्त वर्ण ---
     {
       id: 'ksh_1',
       letter: 'क्ष',
@@ -378,73 +745,6 @@ const HINDI_DATA = {
       rhymeEn: "Gya for Wise Sage, teacher of great wisdom.",
       category: 'vyanjan',
       isFromTextbook: true
-    },
-
-    // --- स्वर Items ---
-    {
-      id: 'swar_a',
-      letter: 'अ',
-      word: 'अनार',
-      englishName: 'Pomegranate',
-      englishWord: 'Anaar (Pomegranate)',
-      iconKey: 'pomegranate',
-      emoji: '🍎',
-      rhyme: "'अ' से अनार, लाल-लाल दानों वाला।",
-      rhymeEn: "A for Pomegranate, filled with ruby seeds.",
-      category: 'swar',
-      isFromTextbook: true
-    },
-    {
-      id: 'swar_aa',
-      letter: 'आ',
-      word: 'आम',
-      englishName: 'Mango',
-      englishWord: 'Aam (Mango)',
-      iconKey: 'mango',
-      emoji: '🥭',
-      rhyme: "'आ' से आम, फलों का प्यारा राजा।",
-      rhymeEn: "Aa for Mango, the sweet king of fruits.",
-      category: 'swar',
-      isFromTextbook: true
-    },
-    {
-      id: 'swar_u',
-      letter: 'उ',
-      word: 'उल्लू',
-      englishName: 'Owl',
-      englishWord: 'Ullu (Owl)',
-      iconKey: 'owl',
-      emoji: '🦉',
-      rhyme: "'उ' से उल्लू, रात को जागे, दिन में सोए।",
-      rhymeEn: "U for Owl, awake at night with watchful eyes.",
-      category: 'swar',
-      isFromTextbook: true
-    },
-    {
-      id: 'swar_am',
-      letter: 'अं',
-      word: 'अंगूर',
-      englishName: 'Grapes',
-      englishWord: 'Angoor (Grapes)',
-      iconKey: 'grapes',
-      emoji: '🍇',
-      rhyme: "'अं' से अंगूर, खट्टे-मीठे गुच्छेदार।",
-      rhymeEn: "Am for Grapes, juicy clusters on the vine.",
-      category: 'swar',
-      isFromTextbook: true
-    },
-    {
-      id: 'k_1',
-      letter: 'क',
-      word: 'कमल',
-      englishName: 'Lotus',
-      englishWord: 'Kamal (Lotus)',
-      iconKey: 'lotus',
-      emoji: '🪷',
-      rhyme: "'क' से कमल, भारत का राष्ट्रीय फूल।",
-      rhymeEn: "Ka for Lotus, the beautiful national flower.",
-      category: 'vyanjan',
-      isFromTextbook: true
     }
   ],
 
@@ -462,11 +762,11 @@ const HINDI_DATA = {
     { seq: ['त', 'थ', null, 'ध', 'न'], answer: 'द', options: ['द', 'ढ', 'ड', 'ट'] },
     { seq: ['प', null, 'ब', 'भ', 'म'], answer: 'फ', options: ['फ', 'क', 'ख', 'छ'] },
     { seq: ['अ', 'आ', null, 'ई', 'उ'], answer: 'इ', options: ['इ', 'ऋ', 'ए', 'ओ'] },
-    { seq: ['उ', 'ऊ', null, 'ए', 'ऐ'], answer: 'ऋ', options: ['ऋ', 'औ', 'अं', 'इ'] }
+    { seq: ['उ', 'ऊ', null, 'ए', 'ऐ'], answer: 'ऋ', options: ['ऋ', 'औ', 'अं', 'इ'] },
+    { seq: ['ए', 'ऐ', null, 'औ', 'अं'], answer: 'ओ', options: ['ओ', 'अः', 'आ', 'इ'] }
   ],
 
   // 5. Listening Exam Phrases (Modeled after textbook Page 66: सुनो - समझो)
-  // Audio plays the word twice without leaking the written word on screen
   listeningQuestions: [
     {
       audioWord: 'बाल्टी',
@@ -537,6 +837,36 @@ const HINDI_DATA = {
       iconKey: 'sun',
       emoji: '☀️',
       options: ['स', 'श', 'य', 'र']
+    },
+    {
+      audioWord: 'मछली',
+      spokenPrompt: 'मछली ... मछली',
+      targetLetter: 'म',
+      word: 'मछली',
+      englishWord: 'Machhli (Fish)',
+      iconKey: 'fish',
+      emoji: '🐟',
+      options: ['म', 'भ', 'प', 'न']
+    },
+    {
+      audioWord: 'पतंग',
+      spokenPrompt: 'पतंग ... पतंग',
+      targetLetter: 'प',
+      word: 'पतंग',
+      englishWord: 'Patang (Kite)',
+      iconKey: 'kite',
+      emoji: '🪁',
+      options: ['प', 'फ', 'ब', 'म']
+    },
+    {
+      audioWord: 'कमल',
+      spokenPrompt: 'कमल ... कमल',
+      targetLetter: 'क',
+      word: 'कमल',
+      englishWord: 'Kamal (Lotus)',
+      iconKey: 'lotus',
+      emoji: '🪷',
+      options: ['क', 'ख', 'ग', 'च']
     }
   ],
 
@@ -601,6 +931,26 @@ const HINDI_DATA = {
       rhyme: "'स' से है सूरज, चमकता है जो हर रोज।",
       rhymeEn: "Sa for Sun, shining bright every morning.",
       sayPrompt: 'कहो: सूरज'
+    },
+    {
+      letter: 'य',
+      word: 'यज्ञ',
+      englishWord: 'Yajna (Sacred Fire)',
+      iconKey: 'yajna',
+      emoji: '🔥',
+      rhyme: "'य' से है यज्ञ, खत्म करो झूठ को।",
+      rhymeEn: "Ya for Sacred Fire, spreading warmth and purity.",
+      sayPrompt: 'कहो: यज्ञ'
+    },
+    {
+      letter: 'म',
+      word: 'मछली',
+      englishWord: 'Machhli (Fish)',
+      iconKey: 'fish',
+      emoji: '🐟',
+      rhyme: "'म' से मछली, जल की रानी है।",
+      rhymeEn: "Ma for Fish, swimming free in the water.",
+      sayPrompt: 'कहो: मछली'
     }
   ],
 
@@ -661,11 +1011,6 @@ const HINDI_DATA = {
     }
   ]
 };
-
-// Helper: Get random item from list
-function getRandomItem(list) {
-  return list[Math.floor(Math.random() * list.length)];
-}
 
 // Helper: Shuffle an array (Fisher-Yates)
 function shuffleArray(array) {

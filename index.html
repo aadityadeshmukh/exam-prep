@@ -38,6 +38,10 @@
         <span>🔊</span>
         <span class="sound-label" style="font-size: 11px;">Sound</span>
       </div>
+
+      <div class="stat-chip settings" id="settings-toggle-btn" title="Settings">
+        <span>⚙️</span>
+      </div>
     </header>
 
     <!-- Main Scrollable Screen Viewport -->
@@ -192,7 +196,47 @@
       </div>
     </div>
 
-  </div>
+    <!-- Settings Modal Overlay -->
+    <div id="settings-modal" class="modal-overlay">
+      <div class="settings-sheet">
+        <div class="settings-header">
+          <h3>⚙️ Settings</h3>
+          <button class="close-modal-btn" id="close-settings-btn">✕</button>
+        </div>
+        <div class="settings-content">
+          <div class="setting-row">
+            <div>
+              <strong>Sound Effects & Audio</strong>
+              <small style="display:block; color: var(--text-secondary);">Pronunciations and chimes</small>
+            </div>
+            <button class="btn-duo btn-white" id="settings-sound-btn" style="width: auto; padding: 8px 16px; font-size: 13px;">
+              Sound: ON
+            </button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <strong>Refill Hearts</strong>
+              <small style="display:block; color: var(--text-secondary);">Restore all 5 lives</small>
+            </div>
+            <button class="btn-duo btn-white" id="settings-refill-btn" style="width: auto; padding: 8px 16px; font-size: 13px;">
+              💖 Refill 5 Hearts
+            </button>
+          </div>
+          <hr style="border: 0; border-top: 1px dashed var(--duo-gray-dark); margin: 14px 0;">
+          <div class="setting-row">
+            <div>
+              <strong style="color: var(--duo-red-dark);">Reset All Progress</strong>
+              <small style="display:block; color: var(--text-secondary);">Clear all stars, XP and exam score</small>
+            </div>
+            <button class="btn-duo btn-red" id="reset-progress-btn" style="width: auto; padding: 10px 16px; font-size: 13px;">
+              🗑️ Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /#app-container -->
 
   <!-- Scripts -->
   <script src="js/illustrations.js"></script>

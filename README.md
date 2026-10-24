@@ -5,7 +5,7 @@
 
 ---
 
-## 🌟 Key Updates & Improvements
+## 🌟 Key Features
 
 1. **🇬🇧 English-Readable Shell + 🇮🇳 Hindi Core Exercises:**
    - App interface, instructions, unit goals, button actions (`CHECK`, `CONTINUE`, `START EXAM`), and report cards are in clean English with Hindi subtitles.
@@ -13,7 +13,7 @@
    - Every word card shows the Hindi word alongside its English meaning & phonetics (e.g., **बाल्टी** *(Baalti • Bucket)*, **खरगोश** *(Khargosh • Rabbit)*).
 
 2. **🎨 Dedicated Vector Illustrations (No Missing or Broken Icons):**
-   - Replaced generic or missing system emojis with crisp, handcrafted SVGs matching the textbook illustrations:
+   - Handcrafted, crisp SVGs matching the textbook illustrations for all objects:
      - 🪣 **बाल्टी** (Bucket with handle)
      - 🥁 **ढोल** (Indian Dhol drum with sticks)
      - 🛡️ **ढाल** (Warrior Shield)
@@ -39,11 +39,16 @@
      - 🌸 **फूल** (Flower)
      - 🦉 **उल्लू** (Owl)
 
-3. **🗺️ Distinct Path Node Icons:**
-   - Every milestone node on the Duolingo map now has its own unique, meaningful icon (🍎 Vowel, 🚂 Train, 🧩 Match, 🎧 Listening, 🎙️ Mic, 🧺 Basket, 🎓 Exam) instead of repetitive unit icons.
+3. **🎲 Zero-Duplicate Randomization (50+ Items):**
+   - High variety sampling without replacement: No object or question can ever repeat within the same test or practice round.
+   - Features a cross-round memory queue so consecutive games always provide fresh vocabulary.
 
-4. **📱 Mobile-First Duolingo Gameplay:**
-   - Top Bar: Daily Streak (🔥), Gems (💎), Hearts (❤️ with free refill), and Sound toggle (🔊).
+4. **⚙️ Settings & Progress Reset:**
+   - Hidden in the top header gear icon (`⚙️`).
+   - Includes sound toggle, instant heart refills, and a **Reset All Progress** button with a safety confirmation prompt.
+
+5. **📱 Mobile-First Duolingo Gameplay:**
+   - Top Bar: Daily Streak (🔥), Gems (💎), Hearts (❤️ with free refill), Sound toggle (🔊), and Settings (⚙️).
    - Real-time Hindi Speech Synthesis (TTS) and voice recognition (STT).
    - Confetti celebration and digital Report Card (30 Marks total: 20M Theory + 5M Listening + 5M Speaking).
 
@@ -65,7 +70,7 @@ python -m http.server 8080
    ```bash
    git init
    git add .
-   git commit -m "Hindi SA-1 Prep App with custom SVGs & English UI"
+   git commit -m "Hindi SA-1 Prep App with Settings & Progress Reset"
    git remote add origin https://github.com/<YOUR-USERNAME>/<REPO-NAME>.git
    git branch -M main
    git push -u origin main
