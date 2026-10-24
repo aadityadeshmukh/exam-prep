@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#58cc02">
+  <meta name="description" content="Universal Wisdom School - Grade 2 Hindi Summative Assessment 1 (SA-1) Exam Prep App">
+  <title>Hindi SA-1 Prep App | Universal Wisdom School Grade 2</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦉</text></svg>">
+</head>
+<body>
+
+  <!-- Mobile Shell Frame Container -->
+  <div id="app-container">
+
+    <!-- Canvas Confetti Overlay -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Top Sticky Bar -->
+    <header class="top-bar">
+      <div class="stat-chip streak" title="Daily Streak">
+        <span>🔥</span>
+        <span id="streak-count">1</span>
+      </div>
+
+      <div class="stat-chip gems" title="XP Points">
+        <span>💎</span>
+        <span id="gems-count">0</span>
+      </div>
+
+      <div class="stat-chip hearts" id="hearts-stat-chip" title="Hearts / Lives (Tap to refill)">
+        <span>❤️</span>
+        <span id="hearts-count">5</span>
+      </div>
+
+      <div class="stat-chip sound" id="sound-toggle-btn" title="Toggle Sound & Speech">
+        <span>🔊</span>
+        <span class="sound-label" style="font-size: 11px;">Sound</span>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Screen Viewport -->
+    <main class="screen-viewport">
+
+      <!-- ================= 1. LEARN VIEW (Duolingo Path) ================= -->
+      <section id="learn-view" class="view-section active">
+        <!-- Mascot Speech Banner -->
+        <div class="mascot-row">
+          <div class="mascot-avatar">🦉</div>
+          <div class="speech-bubble">
+            Hello! Let's prepare for your <strong>Hindi SA-1 Exam</strong> using your textbook <strong>'Bal Patwar 2'</strong>! ✨
+          </div>
+        </div>
+
+        <!-- Dynamic Adventure Path -->
+        <div id="path-nodes-container"></div>
+      </section>
+
+      <!-- ================= 2. MODES HUB VIEW ================= -->
+      <section id="modes-view" class="view-section">
+        <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
+          <h2>🎮 6 Practice Modes</h2>
+          <p>Targeted exercises mapped to the SA-1 syllabus sections</p>
+        </div>
+
+        <div class="modes-grid">
+          <!-- Mode 1: Picture -->
+          <div class="mode-card" onclick="startPractice('picture')">
+            <div class="mode-card-icon">🖼️</div>
+            <div class="mode-card-title">Picture Match</div>
+            <div class="mode-card-desc">चित्र देखकर पहला अक्षर चुनें</div>
+            <div class="mode-card-tag">Theory: First Letter</div>
+          </div>
+
+          <!-- Mode 2: Missing Letter Train -->
+          <div class="mode-card" onclick="startPractice('train')">
+            <div class="mode-card-icon">🚂</div>
+            <div class="mode-card-title">Letter Train</div>
+            <div class="mode-card-desc">रिक्त स्थान भरिए (क to श)</div>
+            <div class="mode-card-tag">Alphabet Order</div>
+          </div>
+
+          <!-- Mode 3: Basket Sorter -->
+          <div class="mode-card" onclick="startPractice('sort')">
+            <div class="mode-card-icon">🧺</div>
+            <div class="mode-card-title">Basket Sorter</div>
+            <div class="mode-card-desc">स्वर और व्यंजन को अलग कीजिए</div>
+            <div class="mode-card-tag">Vowel vs Consonant</div>
+          </div>
+
+          <!-- Mode 4: Match Madness -->
+          <div class="mode-card" onclick="startPractice('match')">
+            <div class="mode-card-icon">🧩</div>
+            <div class="mode-card-title">Match Pairs</div>
+            <div class="mode-card-desc">वर्ण और चित्र का मिलान कीजिए</div>
+            <div class="mode-card-tag">Tile Matching</div>
+          </div>
+
+          <!-- Mode 5: Listening Lab -->
+          <div class="mode-card" onclick="startPractice('listening')">
+            <div class="mode-card-icon">🎧</div>
+            <div class="mode-card-title">Listening Lab</div>
+            <div class="mode-card-desc">सुनो और समझो (Textbook Pg 66)</div>
+            <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Listening (5 Marks)</div>
+          </div>
+
+          <!-- Mode 6: Speaking Studio -->
+          <div class="mode-card" onclick="startPractice('speaking')">
+            <div class="mode-card-icon">🎙️</div>
+            <div class="mode-card-title">Speaking Studio</div>
+            <div class="mode-card-desc">बोलो और सीखो (Rhymes & Mic)</div>
+            <div class="mode-card-tag" style="background: var(--duo-red-light); color: var(--duo-red-dark);">Speaking (5 Marks)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. SA-1 EXAM VIEW ================= -->
+      <section id="exam-view" class="view-section">
+        <div class="unit-banner" style="background: var(--duo-red); box-shadow: 0 4px 0 var(--duo-red-dark);">
+          <h2>📝 SA-1 Full Mock Exam</h2>
+          <p>Universal Wisdom School - Summative Assessment 1 (30 Marks)</p>
+        </div>
+
+        <div style="background: #ffffff; border: 2px solid var(--duo-gray); border-radius: 20px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--duo-gray);">
+          <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--text-primary);">📊 Official Exam Breakdown (30 Marks):</h3>
+          <ul style="padding-left: 20px; line-height: 1.8; font-size: 13.5px; color: var(--text-secondary); font-weight: 600;">
+            <li><strong>Theory (20 Marks):</strong> Vowels (स्वर), Consonants (क to श), Missing Letters, Picture First Letter, Swar/Vyanjan classification, Matching.</li>
+            <li><strong>Listening (5 Marks):</strong> Audio recognition of words and sounds.</li>
+            <li><strong>Speaking (5 Marks):</strong> Accurate pronunciation & poem recitation.</li>
+            <li><strong>Duration:</strong> 40 Minutes (Untimed practice mode available).</li>
+          </ul>
+        </div>
+
+        <button class="btn-duo btn-green" onclick="startPractice('exam', 'all', true)" style="font-size: 17px; padding: 16px;">
+          🚀 START MOCK EXAM (शुरू करें)
+        </button>
+      </section>
+
+      <!-- ================= 4. REPORT CARD VIEW ================= -->
+      <section id="report-view" class="view-section">
+        <div id="report-view-container"></div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (Duolingo Style) -->
+    <nav class="bottom-nav">
+      <button class="nav-tab active" data-target="learn-view">
+        <span class="tab-icon">🗺️</span>
+        <span>Learn</span>
+      </button>
+
+      <button class="nav-tab" data-target="modes-view">
+        <span class="tab-icon">🎮</span>
+        <span>Modes</span>
+      </button>
+
+      <button class="nav-tab" data-target="exam-view">
+        <span class="tab-icon">📝</span>
+        <span>Exam</span>
+      </button>
+
+      <button class="nav-tab" data-target="report-view">
+        <span class="tab-icon">🏆</span>
+        <span>Report</span>
+      </button>
+    </nav>
+
+    <!-- Active Game Modal Overlay -->
+    <div id="game-modal">
+      <div class="game-header">
+        <button class="close-game-btn" id="close-game-btn">✕</button>
+        <div class="game-progress-bar">
+          <div class="game-progress-fill" id="game-progress-bar-fill"></div>
+        </div>
+        <div class="game-hearts-display">
+          <span>❤️</span>
+          <span id="modal-hearts-count">5</span>
+        </div>
+      </div>
+
+      <!-- Question Content Area -->
+      <div class="game-content-area" id="game-content-area"></div>
+
+      <!-- Bottom Action Tray -->
+      <div class="game-bottom-action">
+        <div id="feedback-banner" class="feedback-banner"></div>
+        <button class="btn-duo btn-green" id="check-answer-btn" disabled>
+          CHECK
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/illustrations.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
