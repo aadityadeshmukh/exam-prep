@@ -1,54 +1,78 @@
 // ========================================================
 // DUOLINGO GRADE 2 PREP APP CONTROLLER (MULTI-SUBJECT)
 // Universal Wisdom School - Summative Assessment 1 (SA-1)
-// Subjects: 🇮🇳 Hindi (Bal Patwar 2) & 💻 Computing Theory
+// Subjects:
+// 🇬🇧 English Language (Roald Dahl & Party - 30 Marks)
+// 💻 Computing Theory (Cambridge Primary - 20 Marks)
+// 🇮🇳 Hindi (बाल पतवार २ - 30 Marks)
 // ========================================================
 
 class AppState {
   constructor() {
-    this.currentSubject = 'hindi'; // 'hindi' | 'computing'
+    this.currentSubject = 'english'; // 'english' | 'computing' | 'hindi'
     this.hearts = 5;
     this.maxHearts = 5;
     this.streak = 1;
     this.xp = 0;
-    this.hindiCompletedLessons = {};
+    this.englishCompletedLessons = {};
     this.computingCompletedLessons = {};
-    this.hindiLastExamScore = null;
+    this.hindiCompletedLessons = {};
+    this.englishLastExamScore = null;
     this.computingLastExamScore = null;
+    this.hindiLastExamScore = null;
     this.loadState();
   }
 
   get completedLessons() {
-    return this.currentSubject === 'computing' ? this.computingCompletedLessons : this.hindiCompletedLessons;
+    if (this.currentSubject === 'english') return this.englishCompletedLessons;
+    if (this.currentSubject === 'computing') return this.computingCompletedLessons;
+    return this.hindiCompletedLessons;
   }
 
   get lastExamScore() {
-    return this.currentSubject === 'computing' ? this.computingLastExamScore : this.hindiLastExamScore;
+    if (this.currentSubject === 'english') return this.englishLastExamScore;
+    if (this.currentSubject === 'computing') return this.computingLastExamScore;
+    return this.hindiLastExamScore;
   }
 
   loadState() {
     try {
-      const saved = localStorage.getItem('theia_prep_state_v2');
+      const saved = localStorage.getItem('theia_prep_state_v3');
       if (saved) {
         const data = JSON.parse(saved);
-        this.currentSubject = data.currentSubject || 'hindi';
+        this.currentSubject = data.currentSubject || 'english';
         this.hearts = data.hearts ?? 5;
         this.streak = data.streak ?? 1;
         this.xp = data.xp ?? 0;
-        this.hindiCompletedLessons = data.hindiCompletedLessons || {};
+        this.englishCompletedLessons = data.englishCompletedLessons || {};
         this.computingCompletedLessons = data.computingCompletedLessons || {};
-        this.hindiLastExamScore = data.hindiLastExamScore || null;
+        this.hindiCompletedLessons = data.hindiCompletedLessons || {};
+        this.englishLastExamScore = data.englishLastExamScore || null;
         this.computingLastExamScore = data.computingLastExamScore || null;
+        this.hindiLastExamScore = data.hindiLastExamScore || null;
       } else {
-        // Fallback migration from older key
-        const oldSaved = localStorage.getItem('hindi_duo_state');
-        if (oldSaved) {
-          const oldData = JSON.parse(oldSaved);
-          this.hearts = oldData.hearts ?? 5;
-          this.streak = oldData.streak ?? 1;
-          this.xp = oldData.xp ?? 0;
-          this.hindiCompletedLessons = oldData.completedLessons || {};
-          this.hindiLastExamScore = oldData.lastExamScore || null;
+        // Fallback migration from older keys
+        const v2 = localStorage.getItem('theia_prep_state_v2');
+        if (v2) {
+          const d2 = JSON.parse(v2);
+          this.currentSubject = d2.currentSubject || 'english';
+          this.hearts = d2.hearts ?? 5;
+          this.streak = d2.streak ?? 1;
+          this.xp = d2.xp ?? 0;
+          this.computingCompletedLessons = d2.computingCompletedLessons || {};
+          this.hindiCompletedLessons = d2.hindiCompletedLessons || {};
+          this.computingLastExamScore = d2.computingLastExamScore || null;
+          this.hindiLastExamScore = d2.hindiLastExamScore || null;
+        } else {
+          const oldSaved = localStorage.getItem('hindi_duo_state');
+          if (oldSaved) {
+            const oldData = JSON.parse(oldSaved);
+            this.hearts = oldData.hearts ?? 5;
+            this.streak = oldData.streak ?? 1;
+            this.xp = oldData.xp ?? 0;
+            this.hindiCompletedLessons = oldData.completedLessons || {};
+            this.hindiLastExamScore = oldData.lastExamScore || null;
+          }
         }
       }
     } catch (e) {
@@ -58,15 +82,17 @@ class AppState {
 
   saveState() {
     try {
-      localStorage.setItem('theia_prep_state_v2', JSON.stringify({
+      localStorage.setItem('theia_prep_state_v3', JSON.stringify({
         currentSubject: this.currentSubject,
         hearts: this.hearts,
         streak: this.streak,
         xp: this.xp,
-        hindiCompletedLessons: this.hindiCompletedLessons,
+        englishCompletedLessons: this.englishCompletedLessons,
         computingCompletedLessons: this.computingCompletedLessons,
-        hindiLastExamScore: this.hindiLastExamScore,
-        computingLastExamScore: this.computingLastExamScore
+        hindiCompletedLessons: this.hindiCompletedLessons,
+        englishLastExamScore: this.englishLastExamScore,
+        computingLastExamScore: this.computingLastExamScore,
+        hindiLastExamScore: this.hindiLastExamScore
       }));
     } catch (e) {
       console.warn('Storage save failed', e);
@@ -95,11 +121,14 @@ class AppState {
     this.hearts = 5;
     this.streak = 1;
     this.xp = 0;
-    this.hindiCompletedLessons = {};
+    this.englishCompletedLessons = {};
     this.computingCompletedLessons = {};
-    this.hindiLastExamScore = null;
+    this.hindiCompletedLessons = {};
+    this.englishLastExamScore = null;
     this.computingLastExamScore = null;
+    this.hindiLastExamScore = null;
     try {
+      localStorage.removeItem('theia_prep_state_v3');
       localStorage.removeItem('theia_prep_state_v2');
       localStorage.removeItem('hindi_duo_state');
     } catch (e) {
@@ -135,13 +164,124 @@ class GameSession {
   buildQuestions() {
     this.questions = [];
 
-    // Check if Computing or Hindi
+    const isEnglish = state.currentSubject === 'english' || this.mode.startsWith('e_');
     const isComputing = state.currentSubject === 'computing' || this.mode.startsWith('c_');
 
-    if (isComputing) {
+    if (isEnglish) {
+      this.buildEnglishQuestions();
+    } else if (isComputing) {
       this.buildComputingQuestions();
     } else {
       this.buildHindiQuestions();
+    }
+  }
+
+  // ================= ENGLISH QUESTION BUILDER =================
+  buildEnglishQuestions() {
+    if (this.isExam) {
+      // 15 Questions covering all sections (Scaled to 30 Marks total = 2 marks per question)
+      // Unit 1: Story Writing with Roald Dahl (5 Qs)
+      // Unit 2: Let's Have a Party & Instructions (5 Qs)
+      // Language Topics: Nouns, Verbs, Suffixes, Speech Marks, Compounds (5 Qs)
+      const u1Pool = shuffleArray(ENGLISH_DATA.questionPool.filter(q => q.unit === 1 && q.mode === 'e_story'));
+      const u2Pool = shuffleArray(ENGLISH_DATA.questionPool.filter(q => q.unit === 2 && q.mode === 'e_command'));
+      const langPool = shuffleArray(ENGLISH_DATA.questionPool.filter(q => ['e_grammar', 'e_suffix', 'e_dialogue', 'e_compound'].includes(q.mode)));
+
+      const u1Selected = u1Pool.slice(0, 5);
+      const u2Selected = u2Pool.slice(0, 5);
+      const langSelected = langPool.slice(0, 5);
+
+      const all15 = shuffleArray([...u1Selected, ...u2Selected, ...langSelected]);
+      all15.forEach(q => {
+        this.questions.push({
+          type: 'e_mcq',
+          ...q
+        });
+      });
+    } else {
+      // Individual Mode Practice (5 Questions)
+      let pool = ENGLISH_DATA.questionPool;
+
+      if (this.mode === 'e_story') {
+        pool = pool.filter(q => q.mode === 'e_story');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'e_grammar') {
+        pool = pool.filter(q => q.mode === 'e_grammar');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'e_suffix') {
+        pool = pool.filter(q => q.mode === 'e_suffix');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'e_dialogue') {
+        pool = pool.filter(q => q.mode === 'e_dialogue');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'e_command') {
+        pool = pool.filter(q => q.mode === 'e_command');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'e_compound') {
+        pool = pool.filter(q => q.mode === 'e_compound');
+      }
+
+      const shuffled = shuffleArray(pool).slice(0, 5);
+      shuffled.forEach(q => {
+        this.questions.push({
+          type: 'e_mcq',
+          ...q
+        });
+      });
+
+      // Add 1 interactive basket sort for grammar, story or command modes
+      if (this.mode === 'e_grammar' && ENGLISH_DATA.sortBaskets[0]) {
+        const basketDef = ENGLISH_DATA.sortBaskets[0];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'e_sort',
+          title: 'Is this word a Noun or an Action Verb?',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unitTitle: 'Language Topics: Nouns & Verbs'
+        };
+      } else if (this.mode === 'e_story' && ENGLISH_DATA.sortBaskets[1]) {
+        const basketDef = ENGLISH_DATA.sortBaskets[1];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'e_sort',
+          title: 'Sort this setting adjective:',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unitTitle: 'Unit 1: Writing a Setting'
+        };
+      } else if (this.mode === 'e_command' && ENGLISH_DATA.sortBaskets[2]) {
+        const basketDef = ENGLISH_DATA.sortBaskets[2];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'e_sort',
+          title: 'Is this a Command (Bossy) Verb?',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unitTitle: 'Unit 2: Command Verbs'
+        };
+      }
     }
   }
 
@@ -149,7 +289,6 @@ class GameSession {
   buildComputingQuestions() {
     if (this.isExam) {
       // 20 Questions for SA-1 Computing Theory (20 Marks Total)
-      // Unit 1: 7 Qs, Unit 2: 7 Qs, Unit 3: 6 Qs
       const u1Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 1));
       const u2Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 2));
       const u3Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 3));
@@ -166,7 +305,6 @@ class GameSession {
         });
       });
     } else {
-      // Individual Mode Practice (5 Questions)
       let pool = COMPUTING_DATA.questionPool;
 
       if (this.mode === 'c_algo') {
@@ -203,7 +341,6 @@ class GameSession {
         });
       });
 
-      // Add 1 interactive basket sort for hardware, input or data if applicable
       if (this.mode === 'c_hardware' && COMPUTING_DATA.sortBaskets[0]) {
         const basketDef = COMPUTING_DATA.sortBaskets[0];
         const randomItem = shuffleArray(basketDef.items)[0];
@@ -214,8 +351,7 @@ class GameSession {
           basket1: basketDef.basket1,
           basket2: basketDef.basket2,
           answer: randomItem.category,
-          unit: 2,
-          unitTitle: 'Unit 2: Hardware and Software Work Together'
+          unitTitle: 'Unit 2: Hardware & Software'
         };
       } else if (this.mode === 'c_input' && COMPUTING_DATA.sortBaskets[1]) {
         const basketDef = COMPUTING_DATA.sortBaskets[1];
@@ -227,8 +363,7 @@ class GameSession {
           basket1: basketDef.basket1,
           basket2: basketDef.basket2,
           answer: randomItem.category,
-          unit: 2,
-          unitTitle: 'Unit 2: Hardware and Software Work Together'
+          unitTitle: 'Unit 2: Input Devices'
         };
       } else if (this.mode === 'c_data' && COMPUTING_DATA.sortBaskets[2]) {
         const basketDef = COMPUTING_DATA.sortBaskets[2];
@@ -240,8 +375,7 @@ class GameSession {
           basket1: basketDef.basket1,
           basket2: basketDef.basket2,
           answer: randomItem.category,
-          unit: 3,
-          unitTitle: 'Unit 3: Be a Data Expert'
+          unitTitle: 'Unit 3: Data Expert'
         };
       }
     }
@@ -250,8 +384,6 @@ class GameSession {
   // ================= HINDI QUESTION BUILDER =================
   buildHindiQuestions() {
     if (this.isExam) {
-      // 12 Questions covering all SA-1 Syllabus Areas (20M Theory + 5M Listening + 5M Speaking)
-      // 1. Picture Identification (3 Qs - Theory)
       const shuffledItems = shuffleArray(HINDI_DATA.textbookItems);
       shuffledItems.slice(0, 3).forEach(item => {
         this.questions.push({
@@ -264,7 +396,6 @@ class GameSession {
         });
       });
 
-      // 2. Missing Letter Train (3 Qs - Theory)
       const shuffledSeq = shuffleArray(HINDI_DATA.trainSequences);
       shuffledSeq.slice(0, 3).forEach(seq => {
         this.questions.push({
@@ -277,7 +408,6 @@ class GameSession {
         });
       });
 
-      // 3. Swar vs Vyanjan Sorting (2 Qs - Theory)
       const swarSample = shuffleArray(HINDI_DATA.swarList)[0];
       const vyanjanSample = shuffleArray(HINDI_DATA.vyanjanList)[0];
       this.questions.push({
@@ -295,7 +425,6 @@ class GameSession {
         answer: 'vyanjan'
       });
 
-      // 4. Listening Dictation (2 Qs - Listening 5M)
       const shuffledListen = shuffleArray(HINDI_DATA.listeningQuestions);
       shuffledListen.slice(0, 2).forEach(l => {
         this.questions.push({
@@ -307,7 +436,6 @@ class GameSession {
         });
       });
 
-      // 5. Speaking Recitation (2 Qs - Speaking 5M)
       const shuffledSpeak = shuffleArray(HINDI_DATA.speakingCards);
       shuffledSpeak.slice(0, 2).forEach(s => {
         this.questions.push({
@@ -321,7 +449,6 @@ class GameSession {
 
       this.questions = shuffleArray(this.questions);
     } else {
-      // Individual Mode Practice (5 Questions)
       if (this.mode === 'picture') {
         let pool = HINDI_DATA.textbookItems;
         if (this.filter === 'swar') pool = pool.filter(p => p.category === 'swar');
@@ -461,20 +588,21 @@ function switchSubject(newSubject) {
 window.switchSubject = switchSubject;
 
 function updateSubjectTabs() {
-  const isComp = state.currentSubject === 'computing';
-  const hindiBtn = document.getElementById('sub-btn-hindi');
+  const engBtn = document.getElementById('sub-btn-english');
   const compBtn = document.getElementById('sub-btn-computing');
+  const hindiBtn = document.getElementById('sub-btn-hindi');
 
-  if (hindiBtn && compBtn) {
-    if (isComp) {
-      hindiBtn.classList.remove('active');
-      compBtn.classList.add('active');
-      document.title = 'Computing Theory SA-1 Prep | Universal Wisdom School Grade 2';
-    } else {
-      compBtn.classList.remove('active');
-      hindiBtn.classList.add('active');
-      document.title = 'Hindi SA-1 Prep App | Universal Wisdom School Grade 2';
-    }
+  [engBtn, compBtn, hindiBtn].forEach(b => { if (b) b.classList.remove('active'); });
+
+  if (state.currentSubject === 'english') {
+    if (engBtn) engBtn.classList.add('active');
+    document.title = 'English SA-1 Prep App | Universal Wisdom School Grade 2';
+  } else if (state.currentSubject === 'computing') {
+    if (compBtn) compBtn.classList.add('active');
+    document.title = 'Computing Theory SA-1 Prep | Universal Wisdom School Grade 2';
+  } else {
+    if (hindiBtn) hindiBtn.classList.add('active');
+    document.title = 'Hindi SA-1 Prep App | Universal Wisdom School Grade 2';
   }
 }
 
@@ -483,7 +611,10 @@ function renderMascot() {
   const bubble = document.getElementById('mascot-speech-bubble');
   if (!avatar || !bubble) return;
 
-  if (state.currentSubject === 'computing') {
+  if (state.currentSubject === 'english') {
+    avatar.textContent = '🐊';
+    bubble.innerHTML = `Welcome to <strong>English SA-1 Prep</strong>! Let's explore <strong>Roald Dahl stories</strong>, party instructions, and grammar topics! 📖`;
+  } else if (state.currentSubject === 'computing') {
     avatar.textContent = '🤖';
     bubble.innerHTML = `Welcome to <strong>Computing Theory</strong>! Let's master <strong>Algorithms, Hardware vs Software, and Data Expert</strong> for your SA-1 Exam (20 Marks)! ⚡`;
   } else {
@@ -573,7 +704,7 @@ function initUI() {
   if (resetProgressBtn) {
     resetProgressBtn.addEventListener('click', () => {
       const confirmed = confirm(
-        '⚠️ Are you sure you want to reset all progress?\n\nThis will reset:\n• All stars & completed lessons in Hindi & Computing\n• XP Gems & Daily streak\n• All Mock Exam Report Cards\n\nThis cannot be undone.'
+        '⚠️ Are you sure you want to reset all progress?\n\nThis will reset:\n• All stars & completed lessons in English, Computing & Hindi\n• XP Gems & Daily streak\n• All Mock Exam Report Cards\n\nThis cannot be undone.'
       );
       if (confirmed) {
         state.resetProgress();
@@ -628,7 +759,9 @@ function renderPath() {
   if (!container) return;
   container.innerHTML = '';
 
-  const activeData = state.currentSubject === 'computing' ? COMPUTING_DATA : HINDI_DATA;
+  let activeData = HINDI_DATA;
+  if (state.currentSubject === 'english') activeData = ENGLISH_DATA;
+  else if (state.currentSubject === 'computing') activeData = COMPUTING_DATA;
 
   activeData.adventureUnits.forEach((unit) => {
     const banner = document.createElement('div');
@@ -687,7 +820,64 @@ function renderModesHub() {
   const container = document.getElementById('modes-view-container');
   if (!container) return;
 
-  if (state.currentSubject === 'computing') {
+  if (state.currentSubject === 'english') {
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--duo-purple); box-shadow: 0 4px 0 var(--duo-purple-dark);">
+        <h2>📖 6 English Practice Modes</h2>
+        <p>Targeted exercises mapped to Roald Dahl & Party Units (SA-1)</p>
+      </div>
+
+      <div class="modes-grid">
+        <!-- Mode 1: Story Explorer -->
+        <div class="mode-card" onclick="startPractice('e_story')">
+          <div class="mode-card-icon">🐊</div>
+          <div class="mode-card-title">Story Explorer</div>
+          <div class="mode-card-desc">Roald Dahl characters, settings & story mountain</div>
+          <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 1: Roald Dahl</div>
+        </div>
+
+        <!-- Mode 2: Grammar Detective -->
+        <div class="mode-card" onclick="startPractice('e_grammar')">
+          <div class="mode-card-icon">🔤</div>
+          <div class="mode-card-title">Grammar Detective</div>
+          <div class="mode-card-desc">Nouns, action verbs & adjective positions</div>
+          <div class="mode-card-tag" style="background: var(--sky-blue-light); color: var(--sky-blue-dark);">Language: Nouns & Verbs</div>
+        </div>
+
+        <!-- Mode 3: Suffix Speller -->
+        <div class="mode-card" onclick="startPractice('e_suffix')">
+          <div class="mode-card-icon">🧩</div>
+          <div class="mode-card-title">Suffix Speller</div>
+          <div class="mode-card-desc">Adding -ed & -ing rules (drop e, double letter)</div>
+          <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Language: -ed & -ing</div>
+        </div>
+
+        <!-- Mode 4: Speech Marks Lab -->
+        <div class="mode-card" onclick="startPractice('e_dialogue')">
+          <div class="mode-card-icon">💬</div>
+          <div class="mode-card-title">Speech Marks Lab</div>
+          <div class="mode-card-desc">Inverted commas and expressive speech verbs</div>
+          <div class="mode-card-tag" style="background: var(--duo-purple-light); color: var(--duo-purple-dark);">Language: Dialogue</div>
+        </div>
+
+        <!-- Mode 5: Command Verbs -->
+        <div class="mode-card" onclick="startPractice('e_command')">
+          <div class="mode-card-icon">⚡</div>
+          <div class="mode-card-title">Command Verbs</div>
+          <div class="mode-card-desc">Bossy verbs in instructions & directions</div>
+          <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 2: Instructions</div>
+        </div>
+
+        <!-- Mode 6: Compound Words -->
+        <div class="mode-card" onclick="startPractice('e_compound')">
+          <div class="mode-card-icon">🔗</div>
+          <div class="mode-card-title">Compound Matcher</div>
+          <div class="mode-card-desc">Joining two root words into one bigger word</div>
+          <div class="mode-card-tag" style="background: var(--duo-red-light); color: var(--duo-red-dark);">Language: Compounds</div>
+        </div>
+      </div>
+    `;
+  } else if (state.currentSubject === 'computing') {
     container.innerHTML = `
       <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
         <h2>💻 6 Computing Practice Modes</h2>
@@ -695,7 +885,6 @@ function renderModesHub() {
       </div>
 
       <div class="modes-grid">
-        <!-- Mode 1: Algorithm Detective -->
         <div class="mode-card" onclick="startPractice('c_algo')">
           <div class="mode-card-icon">🤖</div>
           <div class="mode-card-title">Algorithm Detective</div>
@@ -703,7 +892,6 @@ function renderModesHub() {
           <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 1: Algorithms</div>
         </div>
 
-        <!-- Mode 2: Concise Code -->
         <div class="mode-card" onclick="startPractice('c_concise')">
           <div class="mode-card-icon">✂️</div>
           <div class="mode-card-title">Concise Code</div>
@@ -711,7 +899,6 @@ function renderModesHub() {
           <div class="mode-card-tag" style="background: var(--sky-blue-light); color: var(--sky-blue-dark);">Unit 1: Concise Scratch</div>
         </div>
 
-        <!-- Mode 3: Sprite Reset Master -->
         <div class="mode-card" onclick="startPractice('c_reset')">
           <div class="mode-card-icon">🔄</div>
           <div class="mode-card-title">Sprite Reset Master</div>
@@ -719,7 +906,6 @@ function renderModesHub() {
           <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Unit 1: Reset Objects</div>
         </div>
 
-        <!-- Mode 4: Hardware vs Software -->
         <div class="mode-card" onclick="startPractice('c_hardware')">
           <div class="mode-card-icon">💻</div>
           <div class="mode-card-title">Hardware vs Software</div>
@@ -727,7 +913,6 @@ function renderModesHub() {
           <div class="mode-card-tag" style="background: var(--duo-purple-light); color: var(--duo-purple-dark);">Unit 2: Systems</div>
         </div>
 
-        <!-- Mode 5: Smart Input Lab -->
         <div class="mode-card" onclick="startPractice('c_input')">
           <div class="mode-card-icon">🖲️</div>
           <div class="mode-card-title">Smart Input Lab</div>
@@ -735,7 +920,6 @@ function renderModesHub() {
           <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 2: Input Devices</div>
         </div>
 
-        <!-- Mode 6: Data Expert -->
         <div class="mode-card" onclick="startPractice('c_data')">
           <div class="mode-card-icon">📊</div>
           <div class="mode-card-title">Data Expert</div>
@@ -804,7 +988,28 @@ function renderExamHub() {
   const container = document.getElementById('exam-view-container');
   if (!container) return;
 
-  if (state.currentSubject === 'computing') {
+  if (state.currentSubject === 'english') {
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--duo-purple); box-shadow: 0 4px 0 var(--duo-purple-dark);">
+        <h2>🇬🇧 English SA-1 Full Mock Exam</h2>
+        <p>Universal Wisdom School - Summative Assessment 1 (30 Marks)</p>
+      </div>
+
+      <div style="background: #ffffff; border: 2px solid var(--duo-gray); border-radius: 20px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--duo-gray);">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--text-primary);">📊 Official Exam Breakdown (30 Marks):</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; font-size: 13.5px; color: var(--text-secondary); font-weight: 600;">
+          <li><strong>Unit 1: Story Writing with Roald Dahl (10 Marks):</strong> Characters (Mr Wonka, Enormous Crocodile), settings (place, weather, time), sequencing events on story mountain.</li>
+          <li><strong>Unit 2: Let's Have a Party (10 Marks):</strong> Making lists, following instructions (pop-up card), writing invitations & RSVP, improving instructions.</li>
+          <li><strong>Language Topics (10 Marks):</strong> Nouns, verbs & suffix rules (-ed/-ing), adjectives, speech marks, command verbs, compound words.</li>
+          <li><strong>Duration & Format:</strong> 45 Minutes • Total 30 Marks.</li>
+        </ul>
+      </div>
+
+      <button class="btn-duo btn-purple" onclick="startPractice('e_exam', 'all', true)" style="font-size: 17px; padding: 16px; background: var(--duo-purple); box-shadow: 0 5px 0 var(--duo-purple-dark); color: #ffffff;">
+        🚀 START ENGLISH MOCK EXAM (30 Marks)
+      </button>
+    `;
+  } else if (state.currentSubject === 'computing') {
     container.innerHTML = `
       <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
         <h2>💻 Computing Theory Mock Exam</h2>
@@ -897,10 +1102,10 @@ function renderCurrentQuestion() {
   feedbackBanner.innerHTML = '';
 
   // Render question type
-  if (q.type === 'c_mcq') {
-    renderComputingMCQQuestion(q, contentArea, actionBtn);
-  } else if (q.type === 'c_sort') {
-    renderComputingSortQuestion(q, contentArea, actionBtn);
+  if (q.type === 'e_mcq' || q.type === 'c_mcq') {
+    renderGeneralMCQQuestion(q, contentArea, actionBtn);
+  } else if (q.type === 'e_sort' || q.type === 'c_sort') {
+    renderGeneralSortQuestion(q, contentArea, actionBtn);
   } else if (q.type === 'picture') {
     renderPictureQuestion(q, contentArea, actionBtn);
   } else if (q.type === 'train') {
@@ -916,12 +1121,12 @@ function renderCurrentQuestion() {
   }
 }
 
-// ================= COMPUTING QUESTION RENDERERS =================
-function renderComputingMCQQuestion(q, container, actionBtn) {
+// ================= GENERAL MCQ RENDERER (ENGLISH & COMPUTING) =================
+function renderGeneralMCQQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-      <span class="mode-card-tag" style="background: var(--sky-blue-light); color: var(--sky-blue-dark);">${q.unitTitle || 'Computing Theory'}</span>
+      <span class="mode-card-tag" style="background: var(--duo-purple-light); color: var(--duo-purple-dark);">${q.unitTitle || 'Practice'}</span>
       <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">Question ${currentSession.currentIndex + 1}/${currentSession.questions.length}</span>
     </div>
     <div class="bilingual-heading" style="font-size: 19px; line-height: 1.35; margin-bottom: 4px;">${q.question}</div>
@@ -933,7 +1138,7 @@ function renderComputingMCQQuestion(q, container, actionBtn) {
   visualCard.style.padding = '14px';
   visualCard.style.marginBottom = '12px';
   visualCard.innerHTML = `
-    ${getIllustrationHTML(q.iconKey, '💻')}
+    ${getIllustrationHTML(q.iconKey, '📖')}
   `;
 
   const grid = document.createElement('div');
@@ -964,7 +1169,8 @@ function renderComputingMCQQuestion(q, container, actionBtn) {
   container.appendChild(grid);
 }
 
-function renderComputingSortQuestion(q, container, actionBtn) {
+// ================= GENERAL BASKET SORT RENDERER =================
+function renderGeneralSortQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
@@ -983,7 +1189,7 @@ function renderComputingSortQuestion(q, container, actionBtn) {
   card.style.textAlign = 'center';
   card.innerHTML = `
     ${getIllustrationHTML(q.item.icon, '📦')}
-    <strong style="display:block; font-size: 15px; margin-top: 6px; color: var(--text-primary);">${q.item.name}</strong>
+    <strong style="display:block; font-size: 16px; margin-top: 6px; color: var(--text-primary);">${q.item.name}</strong>
   `;
 
   const basketsRow = document.createElement('div');
@@ -1414,7 +1620,6 @@ document.getElementById('check-answer-btn').addEventListener('click', () => {
     const isCorrect = session.selectedOption === q.answer;
     session.userAnswers[session.currentIndex] = isCorrect;
 
-    // Reveal hidden educational content on the card after checking
     const revealSection = document.getElementById('picture-reveal-section');
     if (revealSection && q.item) {
       revealSection.style.display = 'block';
@@ -1495,10 +1700,14 @@ function finishGameSession() {
 
   const pct = Math.round((session.score / session.questions.length) * 100);
   const stars = pct >= 80 ? 3 : pct >= 50 ? 2 : 1;
+
+  const isEnglish = state.currentSubject === 'english' || session.mode.startsWith('e_');
   const isComp = state.currentSubject === 'computing' || session.mode.startsWith('c_');
 
   if (session.lessonId) {
-    if (isComp) {
+    if (isEnglish) {
+      state.englishCompletedLessons[session.lessonId] = stars;
+    } else if (isComp) {
       state.computingCompletedLessons[session.lessonId] = stars;
     } else {
       state.hindiCompletedLessons[session.lessonId] = stars;
@@ -1508,7 +1717,24 @@ function finishGameSession() {
   }
 
   if (session.isExam) {
-    if (isComp) {
+    if (isEnglish) {
+      // 15 questions = 30 marks total (2 marks each)
+      const u1Correct = session.questions.filter((q, idx) => q.unit === 1 && session.userAnswers[idx] === true).length;
+      const u2Correct = session.questions.filter((q, idx) => q.unit === 2 && session.userAnswers[idx] === true).length;
+      const langCorrect = session.questions.filter((q, idx) => q.unitTitle && q.unitTitle.includes('Language') && session.userAnswers[idx] === true).length;
+
+      const marks = Math.round((session.score / session.questions.length) * 30);
+      state.englishLastExamScore = {
+        score: session.score,
+        total: session.questions.length,
+        marks: marks,
+        unit1Marks: Math.min(10, u1Correct * 2),
+        unit2Marks: Math.min(10, u2Correct * 2),
+        grammarMarks: Math.min(10, langCorrect * 2),
+        date: new Date().toLocaleDateString('en-IN')
+      };
+      state.saveState();
+    } else if (isComp) {
       const unit1Correct = session.questions.filter((q, idx) => q.unit === 1 && session.userAnswers[idx] === true).length;
       const unit2Correct = session.questions.filter((q, idx) => q.unit === 2 && session.userAnswers[idx] === true).length;
       const unit3Correct = session.questions.filter((q, idx) => q.unit === 3 && session.userAnswers[idx] === true).length;
@@ -1539,9 +1765,16 @@ function finishGameSession() {
   }
 
   const examMarksTotal = isComp ? 20 : 30;
-  const examScoreVal = session.isExam
-    ? (isComp ? state.computingLastExamScore.marks : state.hindiLastExamScore.marks)
-    : `${pct}%`;
+  let examScoreVal = `${pct}%`;
+  if (session.isExam) {
+    if (isEnglish) examScoreVal = state.englishLastExamScore.marks;
+    else if (isComp) examScoreVal = state.computingLastExamScore.marks;
+    else examScoreVal = state.hindiLastExamScore.marks;
+  }
+
+  let themeBg = 'var(--primary-green)';
+  if (isEnglish) themeBg = 'var(--duo-purple)';
+  else if (isComp) themeBg = 'var(--sky-blue)';
 
   const victoryCard = document.createElement('div');
   victoryCard.className = 'report-card-modal';
@@ -1551,7 +1784,7 @@ function finishGameSession() {
     <h2 style="font-weight: 800; font-size: 24px; color: var(--text-primary);">
       ${pct >= 80 ? 'Outstanding Work!' : 'Good Effort! Keep Practicing!'}
     </h2>
-    <div class="marks-circle" style="background: ${isComp ? 'var(--sky-blue)' : 'var(--primary-green)'};">
+    <div class="marks-circle" style="background: ${themeBg};">
       <span class="marks-score">${examScoreVal}</span>
       <span class="marks-total">${session.isExam ? `Marks out of ${examMarksTotal}` : `${session.score}/${session.questions.length} Correct`}</span>
     </div>
@@ -1560,7 +1793,7 @@ function finishGameSession() {
     </div>
     <p style="font-size: 14px; color: var(--text-secondary);">
       ${session.isExam
-        ? (isComp ? 'Your child is well-prepared for the Computing Theory SA-1 exam!' : 'Your child is well-prepared for the Hindi SA-1 exam!')
+        ? 'Your child is well-prepared for the Summative Assessment 1 exam!'
         : 'You have mastered this lesson. Great job!'}
     </p>
   `;
@@ -1570,7 +1803,7 @@ function finishGameSession() {
   const actionBtn = document.getElementById('check-answer-btn');
   actionBtn.disabled = false;
   actionBtn.textContent = 'BACK TO HOME';
-  actionBtn.className = isComp ? 'btn-duo btn-blue' : 'btn-duo btn-green';
+  actionBtn.className = isEnglish ? 'btn-duo btn-purple' : isComp ? 'btn-duo btn-blue' : 'btn-duo btn-green';
 }
 
 // ================= Report Card View Renderer =================
@@ -1578,7 +1811,67 @@ function renderReportCard() {
   const container = document.getElementById('report-view-container');
   if (!container) return;
 
-  if (state.currentSubject === 'computing') {
+  if (state.currentSubject === 'english') {
+    const scoreData = state.englishLastExamScore;
+    const maxMarks = 30;
+
+    let gradeText = 'Take Exam';
+    if (scoreData) {
+      const pct = (scoreData.marks / maxMarks) * 100;
+      if (pct >= 90) gradeText = 'A* (Outstanding Master!)';
+      else if (pct >= 75) gradeText = 'A (Excellent)';
+      else if (pct >= 50) gradeText = 'B (Good Effort)';
+      else gradeText = 'C (Needs Practice)';
+    }
+
+    container.innerHTML = `
+      <div class="report-card-modal">
+        <div class="report-header-badge">Universal Wisdom School • Grade 2</div>
+        <h2 style="font-size: 22px; font-weight: 800;">English SA-1 Report Card</h2>
+        <div class="marks-circle" style="background: ${scoreData ? 'var(--duo-purple)' : 'var(--duo-gray-dark)'}">
+          <span class="marks-score">${scoreData ? scoreData.marks : '--'}</span>
+          <span class="marks-total">Marks out of 30</span>
+        </div>
+
+        <div class="report-breakdown">
+          <div class="breakdown-row">
+            <span>Unit 1: Roald Dahl & Characters (10 Marks):</span>
+            <span style="color: var(--primary-green-dark);">${scoreData ? `${scoreData.unit1Marks}/10` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Unit 2: Party & Instructions (10 Marks):</span>
+            <span style="color: var(--sky-blue-dark);">${scoreData ? `${scoreData.unit2Marks}/10` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Language & Grammar Topics (10 Marks):</span>
+            <span style="color: var(--duo-purple-dark);">${scoreData ? `${scoreData.grammarMarks}/10` : 'Pending'}</span>
+          </div>
+          <hr style="border: 0; border-top: 1px dashed #ccc; margin: 4px 0;">
+          <div class="breakdown-row">
+            <span>Syllabus Scope:</span>
+            <span>Cambridge Primary English Units 1 & 2</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Exam Date:</span>
+            <span>${scoreData ? scoreData.date : '26th October 2026 (Monday)'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Performance Grade:</span>
+            <strong style="color: var(--duo-purple-dark);">${gradeText}</strong>
+          </div>
+        </div>
+
+        <button class="btn-duo btn-purple" id="re-take-exam-btn" style="background: var(--duo-purple); box-shadow: 0 5px 0 var(--duo-purple-dark); color: #ffffff;">
+          🚀 TAKE ENGLISH MOCK EXAM (30 Marks)
+        </button>
+      </div>
+    `;
+
+    container.querySelector('#re-take-exam-btn').addEventListener('click', () => {
+      soundEngine.playTap();
+      startPractice('e_exam', 'all', true);
+    });
+  } else if (state.currentSubject === 'computing') {
     const scoreData = state.computingLastExamScore;
     const maxMarks = 20;
 

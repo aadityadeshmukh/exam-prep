@@ -928,6 +928,196 @@ const SVG_ICONS = {
       <!-- Soft Cloud in front -->
       <path d="M46 76 L76 76 A10 10 0 0 0 76 56 A12 12 0 0 0 54 52 A9 9 0 0 0 46 60 A8 8 0 0 0 46 76 Z" fill="#edf2f7" stroke="#cbd5e0" stroke-width="2"/>
     </svg>
+  `,
+
+  // ========================================================
+  // ENGLISH VECTOR ILLUSTRATIONS (ROALD DAHL & PARTY)
+  // ========================================================
+
+  // The Enormous Crocodile
+  crocodile: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Crocodile Head & Snout -->
+      <path d="M12 56 C24 38, 45 42, 70 42 C78 36, 88 40, 92 46 C84 48, 76 46, 68 50 C48 50, 30 68, 12 56 Z" fill="#2e7d32" stroke="#1b5e20" stroke-width="3"/>
+      <!-- Eye ridge & yellow eye -->
+      <circle cx="68" cy="38" r="8" fill="#2e7d32" stroke="#1b5e20" stroke-width="2"/>
+      <circle cx="68" cy="38" r="5" fill="#ffd900"/>
+      <circle cx="69" cy="38" r="2.5" fill="#1b5e20"/>
+      <!-- Lower jaw -->
+      <path d="M24 58 L86 52 L78 66 L34 66 Z" fill="#388e3c" stroke="#1b5e20" stroke-width="2.5"/>
+      <!-- Sharp White Teeth like knives -->
+      <polygon points="34,55 38,62 42,55" fill="#ffffff"/>
+      <polygon points="46,54 50,62 54,54" fill="#ffffff"/>
+      <polygon points="58,53 62,61 66,53" fill="#ffffff"/>
+      <polygon points="70,51 74,59 78,51" fill="#ffffff"/>
+      <polygon points="80,50 83,57 86,50" fill="#ffffff"/>
+      <!-- Scales / bumps on back -->
+      <polygon points="18,50 24,44 30,50" fill="#1b5e20"/>
+      <polygon points="34,44 40,38 46,44" fill="#1b5e20"/>
+      <polygon points="50,42 56,36 62,42" fill="#1b5e20"/>
+      <!-- River water ripple below -->
+      <path d="M8 74 Q24 70 40 74 Q56 78 72 74 Q88 70 94 74" fill="none" stroke="#64b5f6" stroke-width="3" stroke-linecap="round"/>
+      <path d="M14 82 Q30 78 46 82 Q62 86 78 82 Q90 80 96 82" fill="none" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Willy Wonka Top Hat & Cane
+  top_hat: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Gold-topped walking cane -->
+      <line x1="72" y1="24" x2="84" y2="86" stroke="#4a5568" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="72" cy="24" r="7" fill="#ffd900" stroke="#d69e2e" stroke-width="2"/>
+      <!-- Hat Crown -->
+      <path d="M26 30 L30 68 L66 68 L70 30 Z" fill="#2d3748" stroke="#1a202c" stroke-width="3"/>
+      <!-- Hat Ribbon (Plum/Gold) -->
+      <rect x="29" y="58" width="38" height="10" fill="#805ad5" stroke="#553c9a" stroke-width="1.5"/>
+      <circle cx="48" cy="63" r="3.5" fill="#ffd900"/>
+      <!-- Hat Brim -->
+      <ellipse cx="48" cy="72" rx="36" ry="10" fill="#1a202c" stroke="#171923" stroke-width="3"/>
+      <!-- Sparkles / Twinkle -->
+      <path d="M20 24 L22 18 L24 24 L30 26 L24 28 L22 34 L20 28 L14 26 Z" fill="#ffd900"/>
+    </svg>
+  `,
+
+  // Wonka Chocolate Bar
+  chocolate_bar: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Brown Chocolate exposed top -->
+      <rect x="24" y="16" width="52" height="30" rx="4" fill="#5c3818" stroke="#3b210c" stroke-width="3"/>
+      <rect x="30" y="22" width="10" height="10" rx="2" fill="#78481e"/>
+      <rect x="45" y="22" width="10" height="10" rx="2" fill="#78481e"/>
+      <rect x="60" y="22" width="10" height="10" rx="2" fill="#78481e"/>
+      <!-- Golden foil wrapper torn edge -->
+      <path d="M22 38 L30 44 L40 38 L50 44 L60 38 L70 44 L78 38 L78 84 L22 84 Z" fill="#ffd900" stroke="#d69e2e" stroke-width="3"/>
+      <!-- Red wrapper sleeve -->
+      <rect x="24" y="50" width="52" height="30" rx="3" fill="#e53e3e"/>
+      <!-- Wonka logo text line -->
+      <rect x="32" y="60" width="36" height="10" rx="2" fill="#ffffff"/>
+      <line x1="36" y1="65" x2="64" y2="65" stroke="#805ad5" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Story Mountain (6 parts)
+  story_mountain: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Base ground -->
+      <line x1="8" y1="84" x2="92" y2="84" stroke="#4a5568" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Big Mountain Triangle -->
+      <polygon points="12,84 50,22 88,84" fill="#3182ce" stroke="#2b6cb0" stroke-width="3"/>
+      <!-- Snow Peak (Climax) -->
+      <polygon points="50,22 40,38 46,42 50,38 54,42 60,38" fill="#ffffff" stroke="#cbd5e0" stroke-width="2"/>
+      <circle cx="50" cy="20" r="4.5" fill="#ffd900"/>
+      <!-- Left side stepping dots (Introduction, Problem, Development) -->
+      <circle cx="20" cy="74" r="3.5" fill="#58cc02"/>
+      <circle cx="30" cy="58" r="3.5" fill="#ffd900"/>
+      <circle cx="40" cy="42" r="3.5" fill="#ff9600"/>
+      <!-- Right side stepping dots (Falling action, Ending) -->
+      <circle cx="62" cy="46" r="3.5" fill="#ff4b4b"/>
+      <circle cx="78" cy="72" r="3.5" fill="#9f7aea"/>
+    </svg>
+  `,
+
+  // Speech Marks & Dialogue
+  speech_bubble_quotes: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Bubble body -->
+      <path d="M16 22 L84 22 A12 12 0 0 1 96 34 L96 66 A12 12 0 0 1 84 78 L34 78 L18 90 L22 78 A12 12 0 0 1 12 66 L12 34 A12 12 0 0 1 24 22 Z" fill="#805ad5" stroke="#6b46c1" stroke-width="3"/>
+      <!-- Left quote " -->
+      <circle cx="34" cy="46" r="6" fill="#ffd900"/>
+      <path d="M36 50 C36 58, 30 62, 26 64" fill="none" stroke="#ffd900" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="48" cy="46" r="6" fill="#ffd900"/>
+      <path d="M50 50 C50 58, 44 62, 40 64" fill="none" stroke="#ffd900" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Right quote " -->
+      <circle cx="66" cy="46" r="6" fill="#ffd900"/>
+      <path d="M68 50 C68 58, 62 62, 58 64" fill="none" stroke="#ffd900" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="80" cy="46" r="6" fill="#ffd900"/>
+      <path d="M82 50 C82 58, 76 62, 72 64" fill="none" stroke="#ffd900" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Party Invitation Card with RSVP
+  invitation: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Envelope Back / Card -->
+      <rect x="14" y="20" width="72" height="58" rx="6" fill="#fffaf0" stroke="#dd6b20" stroke-width="3"/>
+      <!-- Party Bunting banner on top -->
+      <polygon points="20,24 28,34 36,24" fill="#e53e3e"/>
+      <polygon points="36,24 44,34 52,24" fill="#3182ce"/>
+      <polygon points="52,24 60,34 68,24" fill="#38a169"/>
+      <polygon points="68,24 76,34 84,24" fill="#d69e2e"/>
+      <!-- Text lines -->
+      <line x1="24" y1="44" x2="76" y2="44" stroke="#4a5568" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="24" y1="52" x2="64" y2="52" stroke="#4a5568" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="24" y1="60" x2="52" y2="60" stroke="#4a5568" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- RSVP Stamp badge -->
+      <rect x="58" y="56" width="24" height="14" rx="4" fill="#ed8936" stroke="#c05621" stroke-width="1.5"/>
+      <text x="70" y="67" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">RSVP</text>
+    </svg>
+  `,
+
+  // Party Hat & Confetti
+  party_hat: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Cone Hat -->
+      <polygon points="50,16 22,82 78,82" fill="#ed8936" stroke="#c05621" stroke-width="3"/>
+      <!-- Diagonal stripes -->
+      <path d="M32,60 L68,60" stroke="#ffffff" stroke-width="3.5"/>
+      <path d="M40,40 L60,40" stroke="#ffd900" stroke-width="3.5"/>
+      <path d="M26,72 L74,72" stroke="#3182ce" stroke-width="3.5"/>
+      <!-- Top Pom-pom -->
+      <circle cx="50" cy="14" r="7" fill="#ffd900" stroke="#d69e2e" stroke-width="2"/>
+      <!-- Confetti stars around -->
+      <circle cx="16" cy="30" r="3" fill="#e53e3e"/>
+      <circle cx="84" cy="36" r="3" fill="#38a169"/>
+      <circle cx="80" cy="68" r="3.5" fill="#3182ce"/>
+      <circle cx="18" cy="64" r="2.5" fill="#805ad5"/>
+    </svg>
+  `,
+
+  // Pop-Up Card Craft (Unit 2.4)
+  pop_up_card: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Open Folded Card -->
+      <polygon points="12,68 50,84 88,68 88,38 50,54 12,38" fill="#bee3f8" stroke="#3182ce" stroke-width="2.5"/>
+      <line x1="50" y1="54" x2="50" y2="84" stroke="#2b6cb0" stroke-width="2.5"/>
+      <!-- Pop-up Heart / Star in center -->
+      <path d="M50 42 C44 32, 34 36, 38 46 L50 56 L62 46 C66 36, 56 32, 50 42 Z" fill="#e53e3e" stroke="#9b2c2c" stroke-width="2"/>
+      <!-- Scissors hint -->
+      <circle cx="20" cy="26" r="4" fill="none" stroke="#718096" stroke-width="2"/>
+      <circle cx="20" cy="36" r="4" fill="none" stroke="#718096" stroke-width="2"/>
+      <line x1="23" y1="28" x2="38" y2="34" stroke="#718096" stroke-width="2.5"/>
+      <line x1="23" y1="34" x2="38" y2="28" stroke="#718096" stroke-width="2.5"/>
+    </svg>
+  `,
+
+  // Direction Signpost (Unit 2.6)
+  direction_sign: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Wooden post -->
+      <rect x="46" y="16" width="8" height="74" rx="2" fill="#744210" stroke="#4a2810" stroke-width="2"/>
+      <!-- Base grass -->
+      <ellipse cx="50" cy="88" rx="24" ry="6" fill="#48bb78"/>
+      <!-- Sign 1 (pointing right - Park) -->
+      <path d="M26 28 L72 28 L82 36 L72 44 L26 44 Z" fill="#dd6b20" stroke="#7b341e" stroke-width="2.5"/>
+      <line x1="32" y1="36" x2="68" y2="36" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Sign 2 (pointing left - School) -->
+      <path d="M74 52 L28 52 L18 60 L28 68 L74 68 Z" fill="#3182ce" stroke="#2b6cb0" stroke-width="2.5"/>
+      <line x1="32" y1="60" x2="68" y2="60" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Compound Word Puzzle (Unit 2)
+  compound_puzzle: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Piece 1 (Left - Blue) -->
+      <path d="M14 26 L42 26 C42 32, 48 34, 48 40 C48 46, 42 48, 42 54 L42 74 L14 74 Z" fill="#3182ce" stroke="#2b6cb0" stroke-width="3"/>
+      <!-- Plus sign -->
+      <circle cx="50" cy="50" r="10" fill="#ffd900" stroke="#d69e2e" stroke-width="2"/>
+      <line x1="45" y1="50" x2="55" y2="50" stroke="#744210" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="45" x2="50" y2="55" stroke="#744210" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Piece 2 (Right - Green) -->
+      <path d="M58 26 L86 26 L86 74 L58 74 C58 68, 52 66, 52 60 C52 54, 58 52, 58 46 Z" fill="#38a169" stroke="#22543d" stroke-width="3"/>
+    </svg>
   `
 };
 

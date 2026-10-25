@@ -140,8 +140,8 @@ body {
   padding: 4px;
   border-radius: 16px;
   width: 100%;
-  max-width: 400px;
-  gap: 6px;
+  max-width: 420px;
+  gap: 4px;
 }
 
 .subject-tab-btn {
@@ -149,18 +149,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 10px;
+  gap: 4px;
+  padding: 7px 6px;
   border: none;
   border-radius: 12px;
   background: transparent;
   color: var(--text-secondary);
   font-family: var(--font-family);
   font-weight: 700;
-  font-size: 13.5px;
+  font-size: 12.5px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: none;
+  white-space: nowrap;
 }
 
 .subject-tab-btn:hover {
@@ -174,16 +175,20 @@ body {
   transform: translateY(-1px);
 }
 
-.subject-tab-btn.active#sub-btn-hindi {
-  border-bottom: 3px solid var(--primary-green);
+.subject-tab-btn.active#sub-btn-english {
+  border-bottom: 3px solid var(--duo-purple);
 }
 
 .subject-tab-btn.active#sub-btn-computing {
   border-bottom: 3px solid var(--sky-blue);
 }
 
+.subject-tab-btn.active#sub-btn-hindi {
+  border-bottom: 3px solid var(--primary-green);
+}
+
 .sub-flag {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .sub-title {
@@ -191,22 +196,27 @@ body {
 }
 
 .sub-badge {
-  font-size: 10px;
-  padding: 2px 6px;
+  font-size: 9.5px;
+  padding: 2px 5px;
   border-radius: 8px;
   background: var(--duo-gray);
   color: var(--text-secondary);
   font-weight: 700;
 }
 
-.subject-tab-btn.active .sub-badge {
-  background: var(--primary-green-light);
-  color: var(--primary-green-dark);
+.subject-tab-btn.active#sub-btn-english .sub-badge {
+  background: var(--duo-purple-light);
+  color: var(--duo-purple-dark);
 }
 
 .subject-tab-btn.active#sub-btn-computing .sub-badge {
   background: var(--sky-blue-light);
   color: var(--sky-blue-dark);
+}
+
+.subject-tab-btn.active#sub-btn-hindi .sub-badge {
+  background: var(--primary-green-light);
+  color: var(--primary-green-dark);
 }
 
 /* ================= Scratch Blocks & Computing Question UI ================= */
