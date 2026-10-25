@@ -1,30 +1,55 @@
 // ========================================================
-// DUOLINGO HINDI GRADE 2 PREP APP CONTROLLER
-// Universal Wisdom School - Summative Assessment 1
-// Zero-Duplicate Question Selection & High-Variety Sampler
+// DUOLINGO GRADE 2 PREP APP CONTROLLER (MULTI-SUBJECT)
+// Universal Wisdom School - Summative Assessment 1 (SA-1)
+// Subjects: 🇮🇳 Hindi (Bal Patwar 2) & 💻 Computing Theory
 // ========================================================
 
 class AppState {
   constructor() {
+    this.currentSubject = 'hindi'; // 'hindi' | 'computing'
     this.hearts = 5;
     this.maxHearts = 5;
     this.streak = 1;
     this.xp = 0;
-    this.completedLessons = {};
-    this.lastExamScore = null;
+    this.hindiCompletedLessons = {};
+    this.computingCompletedLessons = {};
+    this.hindiLastExamScore = null;
+    this.computingLastExamScore = null;
     this.loadState();
+  }
+
+  get completedLessons() {
+    return this.currentSubject === 'computing' ? this.computingCompletedLessons : this.hindiCompletedLessons;
+  }
+
+  get lastExamScore() {
+    return this.currentSubject === 'computing' ? this.computingLastExamScore : this.hindiLastExamScore;
   }
 
   loadState() {
     try {
-      const saved = localStorage.getItem('hindi_duo_state');
+      const saved = localStorage.getItem('theia_prep_state_v2');
       if (saved) {
         const data = JSON.parse(saved);
+        this.currentSubject = data.currentSubject || 'hindi';
         this.hearts = data.hearts ?? 5;
         this.streak = data.streak ?? 1;
         this.xp = data.xp ?? 0;
-        this.completedLessons = data.completedLessons ?? {};
-        this.lastExamScore = data.lastExamScore ?? null;
+        this.hindiCompletedLessons = data.hindiCompletedLessons || {};
+        this.computingCompletedLessons = data.computingCompletedLessons || {};
+        this.hindiLastExamScore = data.hindiLastExamScore || null;
+        this.computingLastExamScore = data.computingLastExamScore || null;
+      } else {
+        // Fallback migration from older key
+        const oldSaved = localStorage.getItem('hindi_duo_state');
+        if (oldSaved) {
+          const oldData = JSON.parse(oldSaved);
+          this.hearts = oldData.hearts ?? 5;
+          this.streak = oldData.streak ?? 1;
+          this.xp = oldData.xp ?? 0;
+          this.hindiCompletedLessons = oldData.completedLessons || {};
+          this.hindiLastExamScore = oldData.lastExamScore || null;
+        }
       }
     } catch (e) {
       console.warn('Storage not accessible', e);
@@ -33,12 +58,15 @@ class AppState {
 
   saveState() {
     try {
-      localStorage.setItem('hindi_duo_state', JSON.stringify({
+      localStorage.setItem('theia_prep_state_v2', JSON.stringify({
+        currentSubject: this.currentSubject,
         hearts: this.hearts,
         streak: this.streak,
         xp: this.xp,
-        completedLessons: this.completedLessons,
-        lastExamScore: this.lastExamScore
+        hindiCompletedLessons: this.hindiCompletedLessons,
+        computingCompletedLessons: this.computingCompletedLessons,
+        hindiLastExamScore: this.hindiLastExamScore,
+        computingLastExamScore: this.computingLastExamScore
       }));
     } catch (e) {
       console.warn('Storage save failed', e);
@@ -67,9 +95,12 @@ class AppState {
     this.hearts = 5;
     this.streak = 1;
     this.xp = 0;
-    this.completedLessons = {};
-    this.lastExamScore = null;
+    this.hindiCompletedLessons = {};
+    this.computingCompletedLessons = {};
+    this.hindiLastExamScore = null;
+    this.computingLastExamScore = null;
     try {
+      localStorage.removeItem('theia_prep_state_v2');
       localStorage.removeItem('hindi_duo_state');
     } catch (e) {
       console.warn('Storage clear failed', e);
@@ -89,6 +120,7 @@ class GameSession {
     this.filter = filter;
     this.isExam = isExam;
     this.questions = [];
+    this.userAnswers = [];
     this.currentIndex = 0;
     this.score = 0;
     this.theoryScore = 0;
@@ -102,9 +134,124 @@ class GameSession {
 
   buildQuestions() {
     this.questions = [];
+
+    // Check if Computing or Hindi
+    const isComputing = state.currentSubject === 'computing' || this.mode.startsWith('c_');
+
+    if (isComputing) {
+      this.buildComputingQuestions();
+    } else {
+      this.buildHindiQuestions();
+    }
+  }
+
+  // ================= COMPUTING QUESTION BUILDER =================
+  buildComputingQuestions() {
+    if (this.isExam) {
+      // 20 Questions for SA-1 Computing Theory (20 Marks Total)
+      // Unit 1: 7 Qs, Unit 2: 7 Qs, Unit 3: 6 Qs
+      const u1Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 1));
+      const u2Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 2));
+      const u3Pool = shuffleArray(COMPUTING_DATA.questionPool.filter(q => q.unit === 3));
+
+      const u1Selected = u1Pool.slice(0, 7);
+      const u2Selected = u2Pool.slice(0, 7);
+      const u3Selected = u3Pool.slice(0, 6);
+
+      const all20 = shuffleArray([...u1Selected, ...u2Selected, ...u3Selected]);
+      all20.forEach(q => {
+        this.questions.push({
+          type: 'c_mcq',
+          ...q
+        });
+      });
+    } else {
+      // Individual Mode Practice (5 Questions)
+      let pool = COMPUTING_DATA.questionPool;
+
+      if (this.mode === 'c_algo') {
+        pool = pool.filter(q => q.mode === 'c_algo');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'c_concise') {
+        pool = pool.filter(q => q.mode === 'c_concise');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'c_reset') {
+        pool = pool.filter(q => q.mode === 'c_reset');
+        if (this.filter && this.filter !== 'all') {
+          const filtered = pool.filter(q => q.category === this.filter);
+          if (filtered.length >= 3) pool = filtered;
+        }
+      } else if (this.mode === 'c_hardware') {
+        pool = pool.filter(q => q.mode === 'c_hardware');
+      } else if (this.mode === 'c_input') {
+        pool = pool.filter(q => q.mode === 'c_input');
+      } else if (this.mode === 'c_data') {
+        pool = pool.filter(q => q.mode === 'c_data');
+      }
+
+      const shuffled = shuffleArray(pool).slice(0, 5);
+      shuffled.forEach(q => {
+        this.questions.push({
+          type: 'c_mcq',
+          ...q
+        });
+      });
+
+      // Add 1 interactive basket sort for hardware, input or data if applicable
+      if (this.mode === 'c_hardware' && COMPUTING_DATA.sortBaskets[0]) {
+        const basketDef = COMPUTING_DATA.sortBaskets[0];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'c_sort',
+          title: 'Sort into the right category:',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unit: 2,
+          unitTitle: 'Unit 2: Hardware and Software Work Together'
+        };
+      } else if (this.mode === 'c_input' && COMPUTING_DATA.sortBaskets[1]) {
+        const basketDef = COMPUTING_DATA.sortBaskets[1];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'c_sort',
+          title: 'Is this Manual or Automatic Input?',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unit: 2,
+          unitTitle: 'Unit 2: Hardware and Software Work Together'
+        };
+      } else if (this.mode === 'c_data' && COMPUTING_DATA.sortBaskets[2]) {
+        const basketDef = COMPUTING_DATA.sortBaskets[2];
+        const randomItem = shuffleArray(basketDef.items)[0];
+        this.questions[this.questions.length - 1] = {
+          type: 'c_sort',
+          title: 'Is this Categorical or Discrete Data?',
+          item: randomItem,
+          basket1: basketDef.basket1,
+          basket2: basketDef.basket2,
+          answer: randomItem.category,
+          unit: 3,
+          unitTitle: 'Unit 3: Be a Data Expert'
+        };
+      }
+    }
+  }
+
+  // ================= HINDI QUESTION BUILDER =================
+  buildHindiQuestions() {
     if (this.isExam) {
       // 12 Questions covering all SA-1 Syllabus Areas (20M Theory + 5M Listening + 5M Speaking)
-      // 1. Picture Identification (3 Qs - Theory) - GUARANTEED UNIQUE
+      // 1. Picture Identification (3 Qs - Theory)
       const shuffledItems = shuffleArray(HINDI_DATA.textbookItems);
       shuffledItems.slice(0, 3).forEach(item => {
         this.questions.push({
@@ -117,7 +264,7 @@ class GameSession {
         });
       });
 
-      // 2. Missing Letter Train (3 Qs - Theory) - GUARANTEED UNIQUE
+      // 2. Missing Letter Train (3 Qs - Theory)
       const shuffledSeq = shuffleArray(HINDI_DATA.trainSequences);
       shuffledSeq.slice(0, 3).forEach(seq => {
         this.questions.push({
@@ -130,7 +277,7 @@ class GameSession {
         });
       });
 
-      // 3. Swar vs Vyanjan Sorting (2 Qs - Theory) - 1 Distinct Swar + 1 Distinct Vyanjan
+      // 3. Swar vs Vyanjan Sorting (2 Qs - Theory)
       const swarSample = shuffleArray(HINDI_DATA.swarList)[0];
       const vyanjanSample = shuffleArray(HINDI_DATA.vyanjanList)[0];
       this.questions.push({
@@ -148,7 +295,7 @@ class GameSession {
         answer: 'vyanjan'
       });
 
-      // 4. Listening Dictation (2 Qs - Listening 5M) - GUARANTEED UNIQUE
+      // 4. Listening Dictation (2 Qs - Listening 5M)
       const shuffledListen = shuffleArray(HINDI_DATA.listeningQuestions);
       shuffledListen.slice(0, 2).forEach(l => {
         this.questions.push({
@@ -160,7 +307,7 @@ class GameSession {
         });
       });
 
-      // 5. Speaking Recitation (2 Qs - Speaking 5M) - GUARANTEED UNIQUE
+      // 5. Speaking Recitation (2 Qs - Speaking 5M)
       const shuffledSpeak = shuffleArray(HINDI_DATA.speakingCards);
       shuffledSpeak.slice(0, 2).forEach(s => {
         this.questions.push({
@@ -174,7 +321,7 @@ class GameSession {
 
       this.questions = shuffleArray(this.questions);
     } else {
-      // Individual Mode Practice (5 Questions) - STRICT SAMPLING WITHOUT REPLACEMENT
+      // Individual Mode Practice (5 Questions)
       if (this.mode === 'picture') {
         let pool = HINDI_DATA.textbookItems;
         if (this.filter === 'swar') pool = pool.filter(p => p.category === 'swar');
@@ -183,15 +330,11 @@ class GameSession {
         if (this.filter === 'p_sh') pool = pool.filter(p => ['प','फ','ब','भ','म','य','र','ल','व','श'].includes(p.letter));
         if (!pool.length) pool = HINDI_DATA.textbookItems;
 
-        // Deprioritize recently shown items across rounds so the variety is high
         const unshown = pool.filter(p => !recentShownItemIds.includes(p.id));
         const candidatePool = unshown.length >= 5 ? unshown : pool;
         const shuffledPool = shuffleArray(candidatePool);
-
-        // Select 5 unique items
         const selected = shuffledPool.slice(0, Math.min(5, shuffledPool.length));
 
-        // Update recently shown queue (up to 12 items)
         selected.forEach(item => {
           recentShownItemIds.push(item.id);
           if (recentShownItemIds.length > 12) recentShownItemIds.shift();
@@ -290,10 +433,64 @@ let currentSession = null;
 // ================= UI Initialization =================
 document.addEventListener('DOMContentLoaded', () => {
   initUI();
+  updateSubjectTabs();
+  renderMascot();
   renderTopBar();
   renderPath();
+  renderModesHub();
+  renderExamHub();
   setupNavigation();
 });
+
+// ================= Subject Switching =================
+function switchSubject(newSubject) {
+  if (state.currentSubject === newSubject) return;
+  state.currentSubject = newSubject;
+  state.saveState();
+
+  soundEngine.playTap();
+
+  updateSubjectTabs();
+  renderMascot();
+  renderTopBar();
+  renderPath();
+  renderModesHub();
+  renderExamHub();
+  renderReportCard();
+}
+window.switchSubject = switchSubject;
+
+function updateSubjectTabs() {
+  const isComp = state.currentSubject === 'computing';
+  const hindiBtn = document.getElementById('sub-btn-hindi');
+  const compBtn = document.getElementById('sub-btn-computing');
+
+  if (hindiBtn && compBtn) {
+    if (isComp) {
+      hindiBtn.classList.remove('active');
+      compBtn.classList.add('active');
+      document.title = 'Computing Theory SA-1 Prep | Universal Wisdom School Grade 2';
+    } else {
+      compBtn.classList.remove('active');
+      hindiBtn.classList.add('active');
+      document.title = 'Hindi SA-1 Prep App | Universal Wisdom School Grade 2';
+    }
+  }
+}
+
+function renderMascot() {
+  const avatar = document.getElementById('mascot-avatar-display');
+  const bubble = document.getElementById('mascot-speech-bubble');
+  if (!avatar || !bubble) return;
+
+  if (state.currentSubject === 'computing') {
+    avatar.textContent = '🤖';
+    bubble.innerHTML = `Welcome to <strong>Computing Theory</strong>! Let's master <strong>Algorithms, Hardware vs Software, and Data Expert</strong> for your SA-1 Exam (20 Marks)! ⚡`;
+  } else {
+    avatar.textContent = '🦉';
+    bubble.innerHTML = `Hello! Let's prepare for your <strong>Hindi SA-1 Exam</strong> using your textbook <strong>'Bal Patwar 2'</strong>! ✨`;
+  }
+}
 
 function initUI() {
   const soundBtn = document.getElementById('sound-toggle-btn');
@@ -376,12 +573,14 @@ function initUI() {
   if (resetProgressBtn) {
     resetProgressBtn.addEventListener('click', () => {
       const confirmed = confirm(
-        '⚠️ Are you sure you want to reset all progress?\n\nThis will reset:\n• All stars & completed lessons\n• XP Gems & Daily streak\n• SA-1 Mock Exam Report Card\n\nThis cannot be undone.'
+        '⚠️ Are you sure you want to reset all progress?\n\nThis will reset:\n• All stars & completed lessons in Hindi & Computing\n• XP Gems & Daily streak\n• All Mock Exam Report Cards\n\nThis cannot be undone.'
       );
       if (confirmed) {
         state.resetProgress();
         renderTopBar();
         renderPath();
+        renderModesHub();
+        renderExamHub();
         renderReportCard();
         if (settingsModal) settingsModal.classList.remove('active');
         soundEngine.playIncorrect();
@@ -414,6 +613,10 @@ function setupNavigation() {
 
       if (target === 'report-view') {
         renderReportCard();
+      } else if (target === 'modes-view') {
+        renderModesHub();
+      } else if (target === 'exam-view') {
+        renderExamHub();
       }
     });
   });
@@ -425,7 +628,9 @@ function renderPath() {
   if (!container) return;
   container.innerHTML = '';
 
-  HINDI_DATA.adventureUnits.forEach((unit) => {
+  const activeData = state.currentSubject === 'computing' ? COMPUTING_DATA : HINDI_DATA;
+
+  activeData.adventureUnits.forEach((unit) => {
     const banner = document.createElement('div');
     banner.className = 'unit-banner';
     banner.style.background = unit.color;
@@ -458,7 +663,7 @@ function renderPath() {
 
       node.addEventListener('click', () => {
         soundEngine.playTap();
-        startPractice(lesson.type, lesson.filter, lesson.type === 'exam', lesson.id);
+        startPractice(lesson.type, lesson.filter, lesson.type.includes('exam'), lesson.id);
       });
 
       pathGroup.appendChild(node);
@@ -475,6 +680,173 @@ function darkenColor(hex) {
   if (hex.startsWith('#ce82ff')) return '#a559df';
   if (hex.startsWith('#ff4b4b')) return '#ea2b2b';
   return '#afafaf';
+}
+
+// ================= Practice Modes Hub Renderer =================
+function renderModesHub() {
+  const container = document.getElementById('modes-view-container');
+  if (!container) return;
+
+  if (state.currentSubject === 'computing') {
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
+        <h2>💻 6 Computing Practice Modes</h2>
+        <p>Interactive exercises mapped to Cambridge Primary Computing SA-1</p>
+      </div>
+
+      <div class="modes-grid">
+        <!-- Mode 1: Algorithm Detective -->
+        <div class="mode-card" onclick="startPractice('c_algo')">
+          <div class="mode-card-icon">🤖</div>
+          <div class="mode-card-title">Algorithm Detective</div>
+          <div class="mode-card-desc">Follow, understand, edit & correct algorithms</div>
+          <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 1: Algorithms</div>
+        </div>
+
+        <!-- Mode 2: Concise Code -->
+        <div class="mode-card" onclick="startPractice('c_concise')">
+          <div class="mode-card-icon">✂️</div>
+          <div class="mode-card-title">Concise Code</div>
+          <div class="mode-card-desc">Combine repeated Scratch blocks to save power</div>
+          <div class="mode-card-tag" style="background: var(--sky-blue-light); color: var(--sky-blue-dark);">Unit 1: Concise Scratch</div>
+        </div>
+
+        <!-- Mode 3: Sprite Reset Master -->
+        <div class="mode-card" onclick="startPractice('c_reset')">
+          <div class="mode-card-icon">🔄</div>
+          <div class="mode-card-title">Sprite Reset Master</div>
+          <div class="mode-card-desc">Reset position (x, y) & size (100%), negative size</div>
+          <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Unit 1: Reset Objects</div>
+        </div>
+
+        <!-- Mode 4: Hardware vs Software -->
+        <div class="mode-card" onclick="startPractice('c_hardware')">
+          <div class="mode-card-icon">💻</div>
+          <div class="mode-card-title">Hardware vs Software</div>
+          <div class="mode-card-desc">Physical parts, apps, football rules, bugs vs damage</div>
+          <div class="mode-card-tag" style="background: var(--duo-purple-light); color: var(--duo-purple-dark);">Unit 2: Systems</div>
+        </div>
+
+        <!-- Mode 5: Smart Input Lab -->
+        <div class="mode-card" onclick="startPractice('c_input')">
+          <div class="mode-card-icon">🖲️</div>
+          <div class="mode-card-title">Smart Input Lab</div>
+          <div class="mode-card-desc">Manual vs Automatic, Barcodes, RFID & Biometrics</div>
+          <div class="mode-card-tag" style="background: var(--primary-green-light); color: var(--primary-green-dark);">Unit 2: Input Devices</div>
+        </div>
+
+        <!-- Mode 6: Data Expert -->
+        <div class="mode-card" onclick="startPractice('c_data')">
+          <div class="mode-card-icon">📊</div>
+          <div class="mode-card-title">Data Expert</div>
+          <div class="mode-card-desc">Categorical vs Discrete, bar charts & decision solving</div>
+          <div class="mode-card-tag" style="background: var(--duo-red-light); color: var(--duo-red-dark);">Unit 3: Data Problems</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // Hindi Practice Modes
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
+        <h2>🎮 6 Hindi Practice Modes</h2>
+        <p>Targeted exercises mapped to the SA-1 syllabus sections</p>
+      </div>
+
+      <div class="modes-grid">
+        <div class="mode-card" onclick="startPractice('picture')">
+          <div class="mode-card-icon">🖼️</div>
+          <div class="mode-card-title">Picture Match</div>
+          <div class="mode-card-desc">चित्र देखकर पहला अक्षर चुनें</div>
+          <div class="mode-card-tag">Theory: First Letter</div>
+        </div>
+
+        <div class="mode-card" onclick="startPractice('train')">
+          <div class="mode-card-icon">🚂</div>
+          <div class="mode-card-title">Letter Train</div>
+          <div class="mode-card-desc">रिक्त स्थान भरिए (क to श)</div>
+          <div class="mode-card-tag">Alphabet Order</div>
+        </div>
+
+        <div class="mode-card" onclick="startPractice('sort')">
+          <div class="mode-card-icon">🧺</div>
+          <div class="mode-card-title">Basket Sorter</div>
+          <div class="mode-card-desc">स्वर और व्यंजन को अलग कीजिए</div>
+          <div class="mode-card-tag">Vowel vs Consonant</div>
+        </div>
+
+        <div class="mode-card" onclick="startPractice('match')">
+          <div class="mode-card-icon">🧩</div>
+          <div class="mode-card-title">Match Pairs</div>
+          <div class="mode-card-desc">वर्ण और चित्र का मिलान कीजिए</div>
+          <div class="mode-card-tag">Tile Matching</div>
+        </div>
+
+        <div class="mode-card" onclick="startPractice('listening')">
+          <div class="mode-card-icon">🎧</div>
+          <div class="mode-card-title">Listening Lab</div>
+          <div class="mode-card-desc">सुनो और समझो (Textbook Pg 66)</div>
+          <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Listening (5 Marks)</div>
+        </div>
+
+        <div class="mode-card" onclick="startPractice('speaking')">
+          <div class="mode-card-icon">🎙️</div>
+          <div class="mode-card-title">Speaking Studio</div>
+          <div class="mode-card-desc">बोलो और सीखो (Rhymes & Mic)</div>
+          <div class="mode-card-tag" style="background: var(--duo-red-light); color: var(--duo-red-dark);">Speaking (5 Marks)</div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// ================= Exam Hub View Renderer =================
+function renderExamHub() {
+  const container = document.getElementById('exam-view-container');
+  if (!container) return;
+
+  if (state.currentSubject === 'computing') {
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
+        <h2>💻 Computing Theory Mock Exam</h2>
+        <p>Universal Wisdom School - Summative Assessment 1 (20 Marks)</p>
+      </div>
+
+      <div style="background: #ffffff; border: 2px solid var(--duo-gray); border-radius: 20px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--duo-gray);">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--text-primary);">📊 Official Exam Breakdown (20 Marks Theory):</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; font-size: 13.5px; color: var(--text-secondary); font-weight: 600;">
+          <li><strong>Unit 1: Making Programs Clear (7 Marks):</strong> Algorithms, step-by-step order, editing mistakes, concise Scratch code combinations, sprite resets.</li>
+          <li><strong>Unit 2: Hardware & Software (7 Marks):</strong> Hardware vs software roles, physical damage vs bugs, 3 categories, manual vs automatic input devices.</li>
+          <li><strong>Unit 3: Be a Data Expert (6 Marks):</strong> Categorical data, discrete data, reading bar charts, devices to record data, problem-solving.</li>
+          <li><strong>Duration & Format:</strong> 40 Minutes • 20 Questions (1 mark each).</li>
+        </ul>
+      </div>
+
+      <button class="btn-duo btn-blue" onclick="startPractice('c_exam', 'all', true)" style="font-size: 17px; padding: 16px;">
+        🚀 START COMPUTING MOCK EXAM (20 Marks)
+      </button>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="unit-banner" style="background: var(--duo-red); box-shadow: 0 4px 0 var(--duo-red-dark);">
+        <h2>📝 SA-1 Hindi Full Mock Exam</h2>
+        <p>Universal Wisdom School - Summative Assessment 1 (30 Marks)</p>
+      </div>
+
+      <div style="background: #ffffff; border: 2px solid var(--duo-gray); border-radius: 20px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--duo-gray);">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--text-primary);">📊 Official Exam Breakdown (30 Marks):</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; font-size: 13.5px; color: var(--text-secondary); font-weight: 600;">
+          <li><strong>Theory (20 Marks):</strong> Vowels (स्वर), Consonants (क to श), Missing Letters, Picture First Letter, Swar/Vyanjan classification, Matching.</li>
+          <li><strong>Listening (5 Marks):</strong> Audio recognition of words and sounds.</li>
+          <li><strong>Speaking (5 Marks):</strong> Accurate pronunciation & poem recitation.</li>
+          <li><strong>Duration:</strong> 40 Minutes (Untimed practice mode available).</li>
+        </ul>
+      </div>
+
+      <button class="btn-duo btn-green" onclick="startPractice('exam', 'all', true)" style="font-size: 17px; padding: 16px;">
+        🚀 START HINDI MOCK EXAM (शुरू करें)
+      </button>
+    `;
+  }
 }
 
 // ================= Game Session Runner =================
@@ -498,6 +870,7 @@ function startPractice(mode, filter = 'all', isExam = false, lessonId = null) {
 
   renderCurrentQuestion();
 }
+window.startPractice = startPractice;
 
 function renderCurrentQuestion() {
   const session = currentSession;
@@ -524,7 +897,11 @@ function renderCurrentQuestion() {
   feedbackBanner.innerHTML = '';
 
   // Render question type
-  if (q.type === 'picture') {
+  if (q.type === 'c_mcq') {
+    renderComputingMCQQuestion(q, contentArea, actionBtn);
+  } else if (q.type === 'c_sort') {
+    renderComputingSortQuestion(q, contentArea, actionBtn);
+  } else if (q.type === 'picture') {
     renderPictureQuestion(q, contentArea, actionBtn);
   } else if (q.type === 'train') {
     renderTrainQuestion(q, contentArea, actionBtn);
@@ -539,7 +916,119 @@ function renderCurrentQuestion() {
   }
 }
 
-// 1. Picture Mode Renderer (No Leaks Before Check)
+// ================= COMPUTING QUESTION RENDERERS =================
+function renderComputingMCQQuestion(q, container, actionBtn) {
+  const heading = document.createElement('div');
+  heading.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <span class="mode-card-tag" style="background: var(--sky-blue-light); color: var(--sky-blue-dark);">${q.unitTitle || 'Computing Theory'}</span>
+      <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">Question ${currentSession.currentIndex + 1}/${currentSession.questions.length}</span>
+    </div>
+    <div class="bilingual-heading" style="font-size: 19px; line-height: 1.35; margin-bottom: 4px;">${q.question}</div>
+    ${q.subtext ? `<div class="bilingual-subheading" style="margin-bottom: 12px; color: var(--text-secondary);">${q.subtext}</div>` : ''}
+  `;
+
+  const visualCard = document.createElement('div');
+  visualCard.className = 'picture-card';
+  visualCard.style.padding = '14px';
+  visualCard.style.marginBottom = '12px';
+  visualCard.innerHTML = `
+    ${getIllustrationHTML(q.iconKey, '💻')}
+  `;
+
+  const grid = document.createElement('div');
+  grid.className = 'options-grid';
+  grid.style.marginTop = 'auto';
+
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.style.fontSize = '14px';
+    btn.style.padding = '12px 14px';
+    btn.style.lineHeight = '1.3';
+    btn.textContent = opt;
+
+    btn.addEventListener('click', () => {
+      if (currentSession.isAnswerChecked) return;
+      soundEngine.playTap();
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      currentSession.selectedOption = opt;
+      actionBtn.disabled = false;
+    });
+    grid.appendChild(btn);
+  });
+
+  container.appendChild(heading);
+  container.appendChild(visualCard);
+  container.appendChild(grid);
+}
+
+function renderComputingSortQuestion(q, container, actionBtn) {
+  const heading = document.createElement('div');
+  heading.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <span class="mode-card-tag" style="background: var(--duo-purple-light); color: var(--duo-purple-dark);">${q.unitTitle || 'Sorting Lab'}</span>
+      <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">Sorting Challenge</span>
+    </div>
+    <div class="bilingual-heading" style="font-size: 19px;">${q.title}</div>
+  `;
+
+  const card = document.createElement('div');
+  card.className = 'floating-sort-card';
+  card.style.width = '200px';
+  card.style.height = '140px';
+  card.style.fontSize = '20px';
+  card.style.padding = '10px';
+  card.style.textAlign = 'center';
+  card.innerHTML = `
+    ${getIllustrationHTML(q.item.icon, '📦')}
+    <strong style="display:block; font-size: 15px; margin-top: 6px; color: var(--text-primary);">${q.item.name}</strong>
+  `;
+
+  const basketsRow = document.createElement('div');
+  basketsRow.className = 'sort-baskets-row';
+
+  basketsRow.innerHTML = `
+    <div class="basket-dropzone" id="basket-1" style="border-color: ${q.basket1.color}; background: #fdfdfd;">
+      <div class="basket-title" style="color: ${q.basket1.color}; font-size: 15px;">${q.basket1.label}</div>
+    </div>
+    <div class="basket-dropzone" id="basket-2" style="border-color: ${q.basket2.color}; background: #fdfdfd;">
+      <div class="basket-title" style="color: ${q.basket2.color}; font-size: 15px;">${q.basket2.label}</div>
+    </div>
+  `;
+
+  container.appendChild(heading);
+  container.appendChild(card);
+  container.appendChild(basketsRow);
+
+  const b1Btn = basketsRow.querySelector('#basket-1');
+  const b2Btn = basketsRow.querySelector('#basket-2');
+
+  b1Btn.addEventListener('click', () => {
+    if (currentSession.isAnswerChecked) return;
+    soundEngine.playTap();
+    b1Btn.style.transform = 'scale(1.05)';
+    b1Btn.style.background = '#f0f9ff';
+    b2Btn.style.transform = 'scale(1)';
+    b2Btn.style.background = '#fdfdfd';
+    currentSession.selectedOption = q.basket1.key;
+    actionBtn.disabled = false;
+  });
+
+  b2Btn.addEventListener('click', () => {
+    if (currentSession.isAnswerChecked) return;
+    soundEngine.playTap();
+    b2Btn.style.transform = 'scale(1.05)';
+    b2Btn.style.background = '#f0f9ff';
+    b1Btn.style.transform = 'scale(1)';
+    b1Btn.style.background = '#fdfdfd';
+    currentSession.selectedOption = q.basket2.key;
+    actionBtn.disabled = false;
+  });
+}
+
+// ================= HINDI QUESTION RENDERERS =================
 function renderPictureQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
@@ -555,7 +1044,6 @@ function renderPictureQuestion(q, container, actionBtn) {
     <div class="english-subtext" style="font-size: 15px; margin-top: 6px;">
       Object: <strong>${q.item.englishName}</strong>
     </div>
-    <!-- Hidden educational reveal container: Only shows AFTER child checks answer! -->
     <div id="picture-reveal-section" style="display: none; width: 100%; margin-top: 12px; text-align: center; border-top: 1px dashed #ccc; padding-top: 10px;">
       <div class="picture-word" style="font-size: 26px; color: var(--primary-green-dark);">${q.item.word}</div>
       <div style="font-size: 13px; color: var(--text-secondary);">${q.item.englishWord}</div>
@@ -589,7 +1077,6 @@ function renderPictureQuestion(q, container, actionBtn) {
   container.appendChild(grid);
 }
 
-// 2. Train Mode Renderer (Missing Letter)
 function renderTrainQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
@@ -635,7 +1122,6 @@ function renderTrainQuestion(q, container, actionBtn) {
   container.appendChild(optionsGrid);
 }
 
-// 3. Basket Sorter Mode
 function renderSortQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
@@ -691,7 +1177,6 @@ function renderSortQuestion(q, container, actionBtn) {
   setTimeout(() => soundEngine.speakHindi(q.letter), 300);
 }
 
-// 4. Match Madness Mode (Shows picture + English name only - NO Hindi word leak!)
 function renderMatchQuestion(q, container, actionBtn) {
   const heading = document.createElement('div');
   heading.innerHTML = `
@@ -755,48 +1240,50 @@ function renderMatchQuestion(q, container, actionBtn) {
   });
 
   function checkPair() {
-    if (activeLetter && activeItem) {
-      if (activeLetter === activeItem) {
-        soundEngine.playMatchPop();
-        solvedCount++;
+    if (!activeLetter || !activeItem) return;
+    if (activeLetter === activeItem) {
+      soundEngine.playCorrect();
+      const letTile = lettersCol.querySelector(`.match-tile[data-letter="${activeLetter}"]`);
+      const itmTile = itemsCol.querySelector(`.match-tile[data-letter="${activeItem}"]`);
+      if (letTile) {
+        letTile.classList.add('matched');
+        letTile.disabled = true;
+      }
+      if (itmTile) {
+        itmTile.classList.add('matched');
+        itmTile.disabled = true;
+      }
+      solvedCount++;
+      activeLetter = null;
+      activeItem = null;
 
-        const lEl = lettersCol.querySelector(`[data-letter="${activeLetter}"]`);
-        const iEl = itemsCol.querySelector(`[data-letter="${activeItem}"]`);
-        if (lEl) lEl.classList.add('matched');
-        if (iEl) iEl.classList.add('matched');
-
+      if (solvedCount === q.pairs.length) {
+        currentSession.selectedOption = 'matched_all';
+        q.answer = 'matched_all';
+        actionBtn.disabled = false;
+        actionBtn.click();
+      }
+    } else {
+      soundEngine.playIncorrect();
+      setTimeout(() => {
+        lettersCol.querySelectorAll('.match-tile').forEach(t => t.classList.remove('selected'));
+        itemsCol.querySelectorAll('.match-tile').forEach(t => t.classList.remove('selected'));
         activeLetter = null;
         activeItem = null;
-
-        if (solvedCount === q.pairs.length) {
-          currentSession.selectedOption = 'all_matched';
-          q.answer = 'all_matched';
-          actionBtn.disabled = false;
-          actionBtn.click();
-        }
-      } else {
-        soundEngine.playIncorrect();
-        setTimeout(() => {
-          lettersCol.querySelectorAll('.match-tile').forEach(t => t.classList.remove('selected'));
-          itemsCol.querySelectorAll('.match-tile').forEach(t => t.classList.remove('selected'));
-          activeLetter = null;
-          activeItem = null;
-        }, 300);
-      }
+      }, 500);
     }
   }
 
   matchCols.appendChild(lettersCol);
   matchCols.appendChild(itemsCol);
-
   container.appendChild(heading);
   container.appendChild(matchCols);
 }
 
-// 5. Listening Mode Renderer (Does NOT leak word in text before check!)
 function renderListeningQuestion(q, container, actionBtn) {
   const centerBox = document.createElement('div');
-  centerBox.className = 'listening-center';
+  centerBox.style.textAlign = 'center';
+  centerBox.style.margin = '20px auto';
 
   centerBox.innerHTML = `
     <button class="pulse-speaker" id="play-listening-audio" title="Tap to listen again">👂</button>
@@ -833,13 +1320,11 @@ function renderListeningQuestion(q, container, actionBtn) {
   container.appendChild(centerBox);
   container.appendChild(grid);
 
-  // Play audio twice like school dictation without revealing written word!
   setTimeout(() => {
     soundEngine.speakHindi(q.spokenPrompt);
   }, 400);
 }
 
-// 6. Speaking Mode Renderer (Recitation & mic practice)
 function renderSpeakingQuestion(q, container, actionBtn) {
   const rhymeCard = document.createElement('div');
   rhymeCard.className = 'speaking-rhyme-card';
@@ -927,10 +1412,11 @@ document.getElementById('check-answer-btn').addEventListener('click', () => {
     session.isAnswerChecked = true;
     const q = session.questions[session.currentIndex];
     const isCorrect = session.selectedOption === q.answer;
+    session.userAnswers[session.currentIndex] = isCorrect;
 
     // Reveal hidden educational content on the card after checking
     const revealSection = document.getElementById('picture-reveal-section');
-    if (revealSection) {
+    if (revealSection && q.item) {
       revealSection.style.display = 'block';
       soundEngine.speakHindi(q.item.word);
     }
@@ -954,7 +1440,7 @@ document.getElementById('check-answer-btn').addEventListener('click', () => {
         <span style="font-size: 26px;">🎉</span>
         <div>
           <div style="font-weight: 800; font-size: 17px;">Awesome! That's correct!</div>
-          <small>+10 XP gained • बहुत अच्छे!</small>
+          <small>${q.explanation ? q.explanation : '+10 XP gained • Very good!'}</small>
         </div>
       `;
 
@@ -970,8 +1456,8 @@ document.getElementById('check-answer-btn').addEventListener('click', () => {
       feedbackBanner.innerHTML = `
         <span style="font-size: 26px;">💡</span>
         <div>
-          <div style="font-weight: 800; font-size: 17px;">The correct letter is: "${q.answer}"</div>
-          <small>See textbook word above</small>
+          <div style="font-weight: 800; font-size: 16px;">Correct Answer: "${q.answer}"</div>
+          <small>${q.explanation ? q.explanation : 'Keep practicing!'}</small>
         </div>
       `;
 
@@ -1009,26 +1495,53 @@ function finishGameSession() {
 
   const pct = Math.round((session.score / session.questions.length) * 100);
   const stars = pct >= 80 ? 3 : pct >= 50 ? 2 : 1;
+  const isComp = state.currentSubject === 'computing' || session.mode.startsWith('c_');
 
   if (session.lessonId) {
-    state.completedLessons[session.lessonId] = stars;
+    if (isComp) {
+      state.computingCompletedLessons[session.lessonId] = stars;
+    } else {
+      state.hindiCompletedLessons[session.lessonId] = stars;
+    }
     state.saveState();
     renderPath();
   }
 
   if (session.isExam) {
-    const marks = Math.round((session.score / session.questions.length) * 30);
-    state.lastExamScore = {
-      score: session.score,
-      total: session.questions.length,
-      marks: marks,
-      theoryMarks: Math.min(20, Math.round((session.theoryScore / 8) * 20)),
-      listeningMarks: Math.min(5, Math.round((session.listeningScore / 2) * 5)),
-      speakingMarks: Math.min(5, Math.round((session.speakingScore / 2) * 5)),
-      date: new Date().toLocaleDateString('en-IN')
-    };
-    state.saveState();
+    if (isComp) {
+      const unit1Correct = session.questions.filter((q, idx) => q.unit === 1 && session.userAnswers[idx] === true).length;
+      const unit2Correct = session.questions.filter((q, idx) => q.unit === 2 && session.userAnswers[idx] === true).length;
+      const unit3Correct = session.questions.filter((q, idx) => q.unit === 3 && session.userAnswers[idx] === true).length;
+
+      state.computingLastExamScore = {
+        score: session.score,
+        total: session.questions.length,
+        marks: session.score, // 20 questions = 20 Marks
+        unit1Marks: unit1Correct,
+        unit2Marks: unit2Correct,
+        unit3Marks: unit3Correct,
+        date: new Date().toLocaleDateString('en-IN')
+      };
+      state.saveState();
+    } else {
+      const marks = Math.round((session.score / session.questions.length) * 30);
+      state.hindiLastExamScore = {
+        score: session.score,
+        total: session.questions.length,
+        marks: marks,
+        theoryMarks: Math.min(20, Math.round((session.theoryScore / 8) * 20)),
+        listeningMarks: Math.min(5, Math.round((session.listeningScore / 2) * 5)),
+        speakingMarks: Math.min(5, Math.round((session.speakingScore / 2) * 5)),
+        date: new Date().toLocaleDateString('en-IN')
+      };
+      state.saveState();
+    }
   }
+
+  const examMarksTotal = isComp ? 20 : 30;
+  const examScoreVal = session.isExam
+    ? (isComp ? state.computingLastExamScore.marks : state.hindiLastExamScore.marks)
+    : `${pct}%`;
 
   const victoryCard = document.createElement('div');
   victoryCard.className = 'report-card-modal';
@@ -1038,15 +1551,17 @@ function finishGameSession() {
     <h2 style="font-weight: 800; font-size: 24px; color: var(--text-primary);">
       ${pct >= 80 ? 'Outstanding Work!' : 'Good Effort! Keep Practicing!'}
     </h2>
-    <div class="marks-circle">
-      <span class="marks-score">${session.isExam ? state.lastExamScore.marks : `${pct}%`}</span>
-      <span class="marks-total">${session.isExam ? 'Marks out of 30' : `${session.score}/${session.questions.length} Correct`}</span>
+    <div class="marks-circle" style="background: ${isComp ? 'var(--sky-blue)' : 'var(--primary-green)'};">
+      <span class="marks-score">${examScoreVal}</span>
+      <span class="marks-total">${session.isExam ? `Marks out of ${examMarksTotal}` : `${session.score}/${session.questions.length} Correct`}</span>
     </div>
     <div style="font-size: 28px; margin: 4px 0;">
       ${'⭐'.repeat(stars)}
     </div>
     <p style="font-size: 14px; color: var(--text-secondary);">
-      ${session.isExam ? 'Your child is well-prepared for the Hindi SA-1 exam!' : 'You have mastered this lesson. Great job!'}
+      ${session.isExam
+        ? (isComp ? 'Your child is well-prepared for the Computing Theory SA-1 exam!' : 'Your child is well-prepared for the Hindi SA-1 exam!')
+        : 'You have mastered this lesson. Great job!'}
     </p>
   `;
 
@@ -1055,7 +1570,7 @@ function finishGameSession() {
   const actionBtn = document.getElementById('check-answer-btn');
   actionBtn.disabled = false;
   actionBtn.textContent = 'BACK TO HOME';
-  actionBtn.className = 'btn-duo btn-blue';
+  actionBtn.className = isComp ? 'btn-duo btn-blue' : 'btn-duo btn-green';
 }
 
 // ================= Report Card View Renderer =================
@@ -1063,51 +1578,124 @@ function renderReportCard() {
   const container = document.getElementById('report-view-container');
   if (!container) return;
 
-  const scoreData = state.lastExamScore;
+  if (state.currentSubject === 'computing') {
+    const scoreData = state.computingLastExamScore;
+    const maxMarks = 20;
 
-  container.innerHTML = `
-    <div class="report-card-modal">
-      <div class="report-header-badge">Universal Wisdom School • Grade 2</div>
-      <h2 style="font-size: 22px; font-weight: 800;">Hindi SA-1 Report Card</h2>
-      <div class="marks-circle" style="background: ${scoreData ? 'var(--primary-green)' : 'var(--duo-gray-dark)'}">
-        <span class="marks-score">${scoreData ? scoreData.marks : '--'}</span>
-        <span class="marks-total">Marks out of 30</span>
+    let gradeText = 'Take Exam';
+    if (scoreData) {
+      const pct = (scoreData.marks / maxMarks) * 100;
+      if (pct >= 90) gradeText = 'A* (Outstanding Master!)';
+      else if (pct >= 75) gradeText = 'A (Excellent)';
+      else if (pct >= 50) gradeText = 'B (Good Effort)';
+      else gradeText = 'C (Needs Practice)';
+    }
+
+    container.innerHTML = `
+      <div class="report-card-modal">
+        <div class="report-header-badge">Universal Wisdom School • Grade 2</div>
+        <h2 style="font-size: 22px; font-weight: 800;">Computing Theory SA-1 Report Card</h2>
+        <div class="marks-circle" style="background: ${scoreData ? 'var(--sky-blue)' : 'var(--duo-gray-dark)'}">
+          <span class="marks-score">${scoreData ? scoreData.marks : '--'}</span>
+          <span class="marks-total">Marks out of 20</span>
+        </div>
+
+        <div class="report-breakdown">
+          <div class="breakdown-row">
+            <span>Unit 1: Making Programs Clear (7 Marks):</span>
+            <span style="color: var(--primary-green-dark);">${scoreData ? `${scoreData.unit1Marks}/7` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Unit 2: Hardware & Software (7 Marks):</span>
+            <span style="color: var(--sky-blue-dark);">${scoreData ? `${scoreData.unit2Marks}/7` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Unit 3: Be a Data Expert (6 Marks):</span>
+            <span style="color: var(--duo-purple-dark);">${scoreData ? `${scoreData.unit3Marks}/6` : 'Pending'}</span>
+          </div>
+          <hr style="border: 0; border-top: 1px dashed #ccc; margin: 4px 0;">
+          <div class="breakdown-row">
+            <span>Syllabus Scope:</span>
+            <span>Cambridge Primary Computing Units 1, 2, 3</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Exam Date:</span>
+            <span>${scoreData ? scoreData.date : '27th October 2026 (Tuesday)'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Performance Grade:</span>
+            <strong style="color: var(--sky-blue-dark);">${gradeText}</strong>
+          </div>
+        </div>
+
+        <button class="btn-duo btn-blue" id="re-take-exam-btn">
+          🚀 TAKE COMPUTING MOCK EXAM (20 Marks)
+        </button>
       </div>
+    `;
 
-      <div class="report-breakdown">
-        <div class="breakdown-row">
-          <span>1. Theory (थ्योरी - 20 Marks):</span>
-          <span style="color: var(--primary-green-dark);">${scoreData ? `${scoreData.theoryMarks}/20` : 'Pending'}</span>
+    container.querySelector('#re-take-exam-btn').addEventListener('click', () => {
+      soundEngine.playTap();
+      startPractice('c_exam', 'all', true);
+    });
+  } else {
+    // Hindi report card
+    const scoreData = state.hindiLastExamScore;
+    let gradeText = 'Take Exam';
+    if (scoreData) {
+      if (scoreData.marks >= 25) gradeText = 'A+ (Outstanding)';
+      else if (scoreData.marks >= 18) gradeText = 'A (Very Good)';
+      else gradeText = 'B (Needs Practice)';
+    }
+
+    container.innerHTML = `
+      <div class="report-card-modal">
+        <div class="report-header-badge">Universal Wisdom School • Grade 2</div>
+        <h2 style="font-size: 22px; font-weight: 800;">Hindi SA-1 Report Card</h2>
+        <div class="marks-circle" style="background: ${scoreData ? 'var(--primary-green)' : 'var(--duo-gray-dark)'}">
+          <span class="marks-score">${scoreData ? scoreData.marks : '--'}</span>
+          <span class="marks-total">Marks out of 30</span>
         </div>
-        <div class="breakdown-row">
-          <span>2. Listening (सुनना - 5 Marks):</span>
-          <span style="color: var(--sky-blue-dark);">${scoreData ? `${scoreData.listeningMarks}/5` : 'Pending'}</span>
+
+        <div class="report-breakdown">
+          <div class="breakdown-row">
+            <span>1. Theory (थ्योरी - 20 Marks):</span>
+            <span style="color: var(--primary-green-dark);">${scoreData ? `${scoreData.theoryMarks}/20` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>2. Listening (सुनना - 5 Marks):</span>
+            <span style="color: var(--sky-blue-dark);">${scoreData ? `${scoreData.listeningMarks}/5` : 'Pending'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>3. Speaking (बोलना - 5 Marks):</span>
+            <span style="color: var(--duo-orange-dark);">${scoreData ? `${scoreData.speakingMarks}/5` : 'Pending'}</span>
+          </div>
+          <hr style="border: 0; border-top: 1px dashed #ccc; margin: 4px 0;">
+          <div class="breakdown-row">
+            <span>Syllabus Scope:</span>
+            <span>क से श (बाल पतवार २)</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Exam Date:</span>
+            <span>${scoreData ? scoreData.date : '28th October 2026 (Wednesday)'}</span>
+          </div>
+          <div class="breakdown-row">
+            <span>Performance Grade:</span>
+            <strong style="color: var(--primary-green-dark);">${gradeText}</strong>
+          </div>
         </div>
-        <div class="breakdown-row">
-          <span>3. Speaking (बोलना - 5 Marks):</span>
-          <span style="color: var(--duo-orange-dark);">${scoreData ? `${scoreData.speakingMarks}/5` : 'Pending'}</span>
-        </div>
-        <hr style="border: 0; border-top: 1px dashed #ccc; margin: 4px 0;">
-        <div class="breakdown-row">
-          <span>Syllabus Scope:</span>
-          <span>क से श (बाल पतवार २)</span>
-        </div>
-        <div class="breakdown-row">
-          <span>Performance Grade:</span>
-          <strong style="color: var(--primary-green-dark);">${scoreData ? (scoreData.marks >= 24 ? 'A+ (Outstanding)' : scoreData.marks >= 18 ? 'A (Very Good)' : 'B (Needs Practice)') : 'Take Exam'}</strong>
-        </div>
+
+        <button class="btn-duo btn-green" id="re-take-exam-btn">
+          🚀 TAKE HINDI MOCK EXAM (30 Marks)
+        </button>
       </div>
+    `;
 
-      <button class="btn-duo btn-green" id="re-take-exam-btn">
-        🚀 TAKE SA-1 MOCK EXAM
-      </button>
-    </div>
-  `;
-
-  container.querySelector('#re-take-exam-btn').addEventListener('click', () => {
-    soundEngine.playTap();
-    startPractice('exam', 'all', true);
-  });
+    container.querySelector('#re-take-exam-btn').addEventListener('click', () => {
+      soundEngine.playTap();
+      startPractice('exam', 'all', true);
+    });
+  }
 }
 
 // ================= Lightweight Canvas Confetti =================

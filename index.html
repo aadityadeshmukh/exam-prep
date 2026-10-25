@@ -44,6 +44,22 @@
       </div>
     </header>
 
+    <!-- Subject Switcher Segmented Bar -->
+    <div class="subject-bar">
+      <div class="subject-toggle-group">
+        <button class="subject-tab-btn active" id="sub-btn-hindi" onclick="switchSubject('hindi')">
+          <span class="sub-flag">🇮🇳</span>
+          <span class="sub-title">Hindi (हिंदी)</span>
+          <span class="sub-badge" id="hindi-sub-badge">30 M</span>
+        </button>
+        <button class="subject-tab-btn" id="sub-btn-computing" onclick="switchSubject('computing')">
+          <span class="sub-flag">💻</span>
+          <span class="sub-title">Computing</span>
+          <span class="sub-badge" id="computing-sub-badge">20 M</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Main Scrollable Screen Viewport -->
     <main class="screen-viewport">
 
@@ -51,8 +67,8 @@
       <section id="learn-view" class="view-section active">
         <!-- Mascot Speech Banner -->
         <div class="mascot-row">
-          <div class="mascot-avatar">🦉</div>
-          <div class="speech-bubble">
+          <div class="mascot-avatar" id="mascot-avatar-display">🦉</div>
+          <div class="speech-bubble" id="mascot-speech-bubble">
             Hello! Let's prepare for your <strong>Hindi SA-1 Exam</strong> using your textbook <strong>'Bal Patwar 2'</strong>! ✨
           </div>
         </div>
@@ -63,82 +79,12 @@
 
       <!-- ================= 2. MODES HUB VIEW ================= -->
       <section id="modes-view" class="view-section">
-        <div class="unit-banner" style="background: var(--sky-blue); box-shadow: 0 4px 0 var(--sky-blue-dark);">
-          <h2>🎮 6 Practice Modes</h2>
-          <p>Targeted exercises mapped to the SA-1 syllabus sections</p>
-        </div>
-
-        <div class="modes-grid">
-          <!-- Mode 1: Picture -->
-          <div class="mode-card" onclick="startPractice('picture')">
-            <div class="mode-card-icon">🖼️</div>
-            <div class="mode-card-title">Picture Match</div>
-            <div class="mode-card-desc">चित्र देखकर पहला अक्षर चुनें</div>
-            <div class="mode-card-tag">Theory: First Letter</div>
-          </div>
-
-          <!-- Mode 2: Missing Letter Train -->
-          <div class="mode-card" onclick="startPractice('train')">
-            <div class="mode-card-icon">🚂</div>
-            <div class="mode-card-title">Letter Train</div>
-            <div class="mode-card-desc">रिक्त स्थान भरिए (क to श)</div>
-            <div class="mode-card-tag">Alphabet Order</div>
-          </div>
-
-          <!-- Mode 3: Basket Sorter -->
-          <div class="mode-card" onclick="startPractice('sort')">
-            <div class="mode-card-icon">🧺</div>
-            <div class="mode-card-title">Basket Sorter</div>
-            <div class="mode-card-desc">स्वर और व्यंजन को अलग कीजिए</div>
-            <div class="mode-card-tag">Vowel vs Consonant</div>
-          </div>
-
-          <!-- Mode 4: Match Madness -->
-          <div class="mode-card" onclick="startPractice('match')">
-            <div class="mode-card-icon">🧩</div>
-            <div class="mode-card-title">Match Pairs</div>
-            <div class="mode-card-desc">वर्ण और चित्र का मिलान कीजिए</div>
-            <div class="mode-card-tag">Tile Matching</div>
-          </div>
-
-          <!-- Mode 5: Listening Lab -->
-          <div class="mode-card" onclick="startPractice('listening')">
-            <div class="mode-card-icon">🎧</div>
-            <div class="mode-card-title">Listening Lab</div>
-            <div class="mode-card-desc">सुनो और समझो (Textbook Pg 66)</div>
-            <div class="mode-card-tag" style="background: var(--duo-orange-light); color: var(--duo-orange-dark);">Listening (5 Marks)</div>
-          </div>
-
-          <!-- Mode 6: Speaking Studio -->
-          <div class="mode-card" onclick="startPractice('speaking')">
-            <div class="mode-card-icon">🎙️</div>
-            <div class="mode-card-title">Speaking Studio</div>
-            <div class="mode-card-desc">बोलो और सीखो (Rhymes & Mic)</div>
-            <div class="mode-card-tag" style="background: var(--duo-red-light); color: var(--duo-red-dark);">Speaking (5 Marks)</div>
-          </div>
-        </div>
+        <div id="modes-view-container"></div>
       </section>
 
       <!-- ================= 3. SA-1 EXAM VIEW ================= -->
       <section id="exam-view" class="view-section">
-        <div class="unit-banner" style="background: var(--duo-red); box-shadow: 0 4px 0 var(--duo-red-dark);">
-          <h2>📝 SA-1 Full Mock Exam</h2>
-          <p>Universal Wisdom School - Summative Assessment 1 (30 Marks)</p>
-        </div>
-
-        <div style="background: #ffffff; border: 2px solid var(--duo-gray); border-radius: 20px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--duo-gray);">
-          <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--text-primary);">📊 Official Exam Breakdown (30 Marks):</h3>
-          <ul style="padding-left: 20px; line-height: 1.8; font-size: 13.5px; color: var(--text-secondary); font-weight: 600;">
-            <li><strong>Theory (20 Marks):</strong> Vowels (स्वर), Consonants (क to श), Missing Letters, Picture First Letter, Swar/Vyanjan classification, Matching.</li>
-            <li><strong>Listening (5 Marks):</strong> Audio recognition of words and sounds.</li>
-            <li><strong>Speaking (5 Marks):</strong> Accurate pronunciation & poem recitation.</li>
-            <li><strong>Duration:</strong> 40 Minutes (Untimed practice mode available).</li>
-          </ul>
-        </div>
-
-        <button class="btn-duo btn-green" onclick="startPractice('exam', 'all', true)" style="font-size: 17px; padding: 16px;">
-          🚀 START MOCK EXAM (शुरू करें)
-        </button>
+        <div id="exam-view-container"></div>
       </section>
 
       <!-- ================= 4. REPORT CARD VIEW ================= -->
@@ -241,6 +187,7 @@
   <!-- Scripts -->
   <script src="js/illustrations.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/computingData.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/app.js"></script>
 </body>

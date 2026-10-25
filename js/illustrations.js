@@ -523,6 +523,411 @@ const SVG_ICONS = {
       <!-- Tail -->
       <polygon points="50,78 44,88 56,88" fill="#e91e63"/>
     </svg>
+  `,
+
+  // ========================================================
+  // COMPUTING THEORY VECTOR ILLUSTRATIONS
+  // Hardware, Software, Input Devices, Algorithms & Data
+  // ========================================================
+
+  // Computer / Monitor
+  computer: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Screen frame -->
+      <rect x="14" y="16" width="72" height="50" rx="6" fill="#2d3748" stroke="#1a202c" stroke-width="3"/>
+      <!-- Inner display -->
+      <rect x="19" y="21" width="62" height="40" rx="3" fill="#1cb0f6"/>
+      <!-- Screen content lines -->
+      <line x1="25" y1="29" x2="52" y2="29" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <line x1="25" y1="37" x2="72" y2="37" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="25" y1="44" x2="64" y2="44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="68" cy="28" r="4" fill="#ffd900"/>
+      <!-- Stand -->
+      <rect x="44" y="66" width="12" height="12" fill="#718096" stroke="#4a5568" stroke-width="2"/>
+      <path d="M30 78 L70 78 L65 84 L35 84 Z" fill="#4a5568"/>
+    </svg>
+  `,
+
+  // Keyboard
+  keyboard: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Keyboard base -->
+      <rect x="10" y="30" width="80" height="46" rx="6" fill="#4a5568" stroke="#2d3748" stroke-width="3"/>
+      <!-- Key rows -->
+      <rect x="16" y="36" width="12" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="31" y="36" width="12" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="46" y="36" width="12" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="61" y="36" width="12" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="75" y="36" width="9" height="7" rx="2" fill="#ffd900"/>
+
+      <rect x="16" y="46" width="14" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="33" y="46" width="11" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="47" y="46" width="11" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="61" y="46" width="11" height="7" rx="2" fill="#e2e8f0"/>
+      <rect x="75" y="46" width="9" height="7" rx="2" fill="#58cc02"/>
+
+      <rect x="16" y="56" width="18" height="7" rx="2" fill="#cbd5e0"/>
+      <!-- Spacebar -->
+      <rect x="37" y="56" width="34" height="7" rx="2" fill="#ffffff"/>
+      <rect x="74" y="56" width="10" height="7" rx="2" fill="#cbd5e0"/>
+      <!-- Cord -->
+      <path d="M50 30 Q50 18 68 18" fill="none" stroke="#718096" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Mouse
+  mouse: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Mouse body -->
+      <ellipse cx="50" cy="56" rx="24" ry="32" fill="#1cb0f6" stroke="#1899d6" stroke-width="3"/>
+      <!-- Split line between buttons -->
+      <line x1="50" y1="24" x2="50" y2="52" stroke="#1899d6" stroke-width="2"/>
+      <!-- Scroll wheel -->
+      <rect x="46" y="32" width="8" height="15" rx="4" fill="#2d3748"/>
+      <!-- Cord -->
+      <path d="M50 24 C50 12, 38 10, 36 6" fill="none" stroke="#4a5568" stroke-width="3" stroke-linecap="round"/>
+      <!-- Highlight -->
+      <ellipse cx="38" cy="62" rx="4" ry="12" fill="#ffffff" opacity="0.4"/>
+    </svg>
+  `,
+
+  // Printer
+  printer: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Printer top paper slot -->
+      <rect x="28" y="16" width="44" height="26" rx="3" fill="#ffffff" stroke="#718096" stroke-width="2"/>
+      <line x1="34" y1="24" x2="66" y2="24" stroke="#a0aec0" stroke-width="2"/>
+      <line x1="34" y1="30" x2="58" y2="30" stroke="#a0aec0" stroke-width="2"/>
+      <!-- Main body -->
+      <rect x="14" y="36" width="72" height="34" rx="6" fill="#edf2f7" stroke="#4a5568" stroke-width="3"/>
+      <!-- Paper output slot -->
+      <rect x="24" y="58" width="52" height="6" rx="2" fill="#2d3748"/>
+      <!-- Output sheet -->
+      <rect x="28" y="62" width="44" height="24" rx="2" fill="#ffffff" stroke="#cbd5e0" stroke-width="2"/>
+      <line x1="34" y1="68" x2="66" y2="68" stroke="#58cc02" stroke-width="2.5"/>
+      <line x1="34" y1="74" x2="56" y2="74" stroke="#718096" stroke-width="2"/>
+      <!-- Status LED -->
+      <circle cx="76" cy="46" r="3.5" fill="#58cc02"/>
+      <circle cx="68" cy="46" r="3" fill="#3182ce"/>
+    </svg>
+  `,
+
+  // Speakers
+  speakers: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Left Speaker -->
+      <rect x="14" y="24" width="30" height="56" rx="5" fill="#2d3748" stroke="#1a202c" stroke-width="3"/>
+      <circle cx="29" cy="42" r="7" fill="#4a5568" stroke="#1a202c" stroke-width="2"/>
+      <circle cx="29" cy="62" r="11" fill="#718096" stroke="#1a202c" stroke-width="2"/>
+      <circle cx="29" cy="62" r="4" fill="#ffd900"/>
+      <!-- Right Speaker -->
+      <rect x="56" y="24" width="30" height="56" rx="5" fill="#2d3748" stroke="#1a202c" stroke-width="3"/>
+      <circle cx="71" cy="42" r="7" fill="#4a5568" stroke="#1a202c" stroke-width="2"/>
+      <circle cx="71" cy="62" r="11" fill="#718096" stroke="#1a202c" stroke-width="2"/>
+      <circle cx="71" cy="62" r="4" fill="#ffd900"/>
+      <!-- Sound waves -->
+      <path d="M48 38 Q52 44 48 50" fill="none" stroke="#1cb0f6" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M49 32 Q56 44 49 56" fill="none" stroke="#1cb0f6" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // USB Drive (Storage)
+  usb_drive: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- USB Metal head -->
+      <rect x="36" y="16" width="28" height="24" rx="2" fill="#cbd5e0" stroke="#718096" stroke-width="2.5"/>
+      <rect x="42" y="22" width="6" height="6" fill="#4a5568"/>
+      <rect x="52" y="22" width="6" height="6" fill="#4a5568"/>
+      <!-- Plastic casing -->
+      <rect x="30" y="38" width="40" height="48" rx="8" fill="#ff4b4b" stroke="#ea2b2b" stroke-width="3"/>
+      <rect x="38" y="46" width="24" height="20" rx="3" fill="#ffffff" opacity="0.3"/>
+      <!-- Lanyard hole -->
+      <circle cx="50" cy="74" r="5" fill="#2d3748"/>
+    </svg>
+  `,
+
+  // Hard Drive (Storage)
+  hard_drive: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <rect x="18" y="28" width="64" height="48" rx="6" fill="#ce82ff" stroke="#a559df" stroke-width="3"/>
+      <circle cx="34" cy="52" r="5" fill="#58cc02"/>
+      <line x1="48" y1="46" x2="72" y2="46" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <line x1="48" y1="56" x2="66" y2="56" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <!-- Cable -->
+      <path d="M50 76 Q50 86 64 86 Q78 86 78 72" fill="none" stroke="#4a5568" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Microphone
+  microphone: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Mic capsule -->
+      <rect x="38" y="16" width="24" height="38" rx="12" fill="#4a5568" stroke="#2d3748" stroke-width="3"/>
+      <!-- Grille lines -->
+      <line x1="42" y1="28" x2="58" y2="28" stroke="#a0aec0" stroke-width="2"/>
+      <line x1="42" y1="36" x2="58" y2="36" stroke="#a0aec0" stroke-width="2"/>
+      <!-- U-bracket -->
+      <path d="M30 36 C30 62, 70 62, 70 36" fill="none" stroke="#e2e8f0" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Stand stem and base -->
+      <line x1="50" y1="60" x2="50" y2="78" stroke="#e2e8f0" stroke-width="4"/>
+      <ellipse cx="50" cy="80" rx="20" ry="7" fill="#4a5568" stroke="#2d3748" stroke-width="2.5"/>
+    </svg>
+  `,
+
+  // Barcode & Scanner
+  barcode: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <rect x="14" y="24" width="72" height="52" rx="6" fill="#ffffff" stroke="#cbd5e0" stroke-width="2.5"/>
+      <!-- Vertical black lines -->
+      <line x1="22" y1="32" x2="22" y2="64" stroke="#1a202c" stroke-width="4"/>
+      <line x1="28" y1="32" x2="28" y2="64" stroke="#1a202c" stroke-width="2"/>
+      <line x1="33" y1="32" x2="33" y2="64" stroke="#1a202c" stroke-width="5"/>
+      <line x1="41" y1="32" x2="41" y2="64" stroke="#1a202c" stroke-width="2"/>
+      <line x1="47" y1="32" x2="47" y2="64" stroke="#1a202c" stroke-width="6"/>
+      <line x1="56" y1="32" x2="56" y2="64" stroke="#1a202c" stroke-width="3"/>
+      <line x1="62" y1="32" x2="62" y2="64" stroke="#1a202c" stroke-width="2"/>
+      <line x1="67" y1="32" x2="67" y2="64" stroke="#1a202c" stroke-width="4"/>
+      <line x1="75" y1="32" x2="75" y2="64" stroke="#1a202c" stroke-width="3"/>
+      <!-- Red laser scan line -->
+      <line x1="10" y1="48" x2="90" y2="48" stroke="#ff4b4b" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="10" cy="48" r="3" fill="#ff4b4b"/>
+      <circle cx="90" cy="48" r="3" fill="#ff4b4b"/>
+    </svg>
+  `,
+
+  // RFID Contactless Card
+  rfid: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Credit Card shape -->
+      <rect x="12" y="24" width="76" height="52" rx="8" fill="#ff9600" stroke="#e08500" stroke-width="3"/>
+      <!-- Gold chip -->
+      <rect x="22" y="38" width="16" height="13" rx="2" fill="#ffd900" stroke="#b7791f" stroke-width="1.5"/>
+      <!-- RFID waves -->
+      <path d="M52 38 Q58 45 52 52" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M58 33 Q67 45 58 57" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M64 28 Q76 45 64 62" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <!-- Card text bars -->
+      <rect x="22" y="60" width="30" height="5" rx="2" fill="#ffffff" opacity="0.8"/>
+      <circle cx="74" cy="62" r="6" fill="#ff4b4b" opacity="0.9"/>
+      <circle cx="66" cy="62" r="6" fill="#ffd900" opacity="0.9"/>
+    </svg>
+  `,
+
+  // Biometric Fingerprint
+  fingerprint: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Scanner bezel -->
+      <rect x="18" y="16" width="64" height="68" rx="16" fill="#1a202c" stroke="#1cb0f6" stroke-width="3"/>
+      <!-- Glow center -->
+      <circle cx="50" cy="50" r="28" fill="#1cb0f6" opacity="0.15"/>
+      <!-- Fingerprint ridges -->
+      <path d="M50 36 C42 36, 38 42, 38 52 C38 62, 42 66, 50 66" fill="none" stroke="#1cb0f6" stroke-width="3" stroke-linecap="round"/>
+      <path d="M50 42 C45 42, 44 46, 44 52 C44 58, 47 61, 50 61" fill="none" stroke="#1cb0f6" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M50 30 C38 30, 32 38, 32 52 C32 66, 40 72, 50 72" fill="none" stroke="#1cb0f6" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M50 30 C62 30, 68 38, 68 52 C68 64, 62 70, 56 72" fill="none" stroke="#1cb0f6" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M50 36 C58 36, 62 42, 62 52 C62 60, 58 64, 56 66" fill="none" stroke="#1cb0f6" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Sensor (Smoke detector / Temp sensor)
+  sensor: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Outer dome -->
+      <ellipse cx="50" cy="50" rx="38" ry="32" fill="#edf2f7" stroke="#718096" stroke-width="3"/>
+      <ellipse cx="50" cy="50" rx="26" ry="20" fill="#cbd5e0" stroke="#a0aec0" stroke-width="2"/>
+      <!-- Center sensor dot -->
+      <circle cx="50" cy="50" r="10" fill="#e53e3e"/>
+      <circle cx="50" cy="50" r="5" fill="#ffd900"/>
+      <!-- Sensing waves emitting -->
+      <path d="M50 12 Q50 6 56 6" fill="none" stroke="#e53e3e" stroke-width="3" stroke-linecap="round"/>
+      <path d="M64 16 Q72 12 76 18" fill="none" stroke="#e53e3e" stroke-width="3" stroke-linecap="round"/>
+      <path d="M36 16 Q28 12 24 18" fill="none" stroke="#e53e3e" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Scratch Cat Sprite
+  scratch_cat: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Cat Head -->
+      <ellipse cx="50" cy="54" rx="28" ry="24" fill="#ff9600" stroke="#d97706" stroke-width="3"/>
+      <!-- Ears -->
+      <polygon points="28,42 22,18 42,32" fill="#ff9600" stroke="#d97706" stroke-width="3"/>
+      <polygon points="72,42 78,18 58,32" fill="#ff9600" stroke="#d97706" stroke-width="3"/>
+      <polygon points="29,38 26,24 38,34" fill="#ffffff"/>
+      <polygon points="71,38 74,24 62,34" fill="#ffffff"/>
+      <!-- Big Muzzle -->
+      <ellipse cx="44" cy="60" rx="9" ry="8" fill="#ffffff"/>
+      <ellipse cx="56" cy="60" rx="9" ry="8" fill="#ffffff"/>
+      <!-- Nose -->
+      <polygon points="50,56 46,52 54,52" fill="#2d3748"/>
+      <!-- Smile -->
+      <path d="M44 63 Q50 68 56 63" fill="none" stroke="#2d3748" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Eyes -->
+      <ellipse cx="38" cy="46" rx="6" ry="8" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
+      <ellipse cx="62" cy="46" rx="6" ry="8" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
+      <circle cx="40" cy="46" r="3.5" fill="#2d3748"/>
+      <circle cx="60" cy="46" r="3.5" fill="#2d3748"/>
+      <circle cx="41" cy="44" r="1.2" fill="#ffffff"/>
+      <circle cx="61" cy="44" r="1.2" fill="#ffffff"/>
+      <!-- Whiskers -->
+      <line x1="20" y1="56" x2="34" y2="58" stroke="#2d3748" stroke-width="2"/>
+      <line x1="20" y1="64" x2="34" y2="62" stroke="#2d3748" stroke-width="2"/>
+      <line x1="80" y1="56" x2="66" y2="58" stroke="#2d3748" stroke-width="2"/>
+      <line x1="80" y1="64" x2="66" y2="62" stroke="#2d3748" stroke-width="2"/>
+    </svg>
+  `,
+
+  // Scratch Code Blocks
+  scratch_blocks: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Hat Block (Events: When Flag Clicked) -->
+      <path d="M10 26 C20 16 35 16 45 26 L88 26 Q92 26 92 30 L92 42 Q92 46 88 46 L38 46 L32 50 L24 50 L18 46 L14 46 Q10 46 10 42 Z" fill="#ffd900" stroke="#d69e2e" stroke-width="2.5"/>
+      <circle cx="24" cy="36" r="5" fill="#58cc02"/>
+      <line x1="36" y1="36" x2="76" y2="36" stroke="#744210" stroke-width="3" stroke-linecap="round"/>
+      <!-- Motion Block (Blue: move 10 steps) -->
+      <path d="M10 46 L18 46 L24 50 L32 50 L38 46 L88 46 Q92 46 92 50 L92 68 Q92 72 88 72 L38 72 L32 76 L24 76 L18 72 L14 72 Q10 72 10 68 Z" fill="#4c97ff" stroke="#2873df" stroke-width="2.5"/>
+      <rect x="22" y="54" width="28" height="10" rx="3" fill="#ffffff"/>
+      <line x1="56" y1="59" x2="82" y2="59" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+      <!-- Looks Block (Purple: change size by) -->
+      <path d="M10 72 L18 72 L24 76 L32 76 L38 72 L88 72 Q92 72 92 76 L92 90 Q92 94 88 94 L14 94 Q10 94 10 90 Z" fill="#9966ff" stroke="#7744dd" stroke-width="2.5"/>
+      <rect x="22" y="78" width="22" height="10" rx="3" fill="#ffffff"/>
+      <line x1="50" y1="83" x2="80" y2="83" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  // Bar Chart (Categorical & Discrete Data)
+  bar_chart: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Axis lines -->
+      <line x1="16" y1="16" x2="16" y2="84" stroke="#4a5568" stroke-width="3" stroke-linecap="round"/>
+      <line x1="16" y1="84" x2="90" y2="84" stroke="#4a5568" stroke-width="3" stroke-linecap="round"/>
+      <!-- Bar 1 (Red) -->
+      <rect x="24" y="52" width="16" height="32" rx="3" fill="#ff4b4b" stroke="#ea2b2b" stroke-width="2"/>
+      <!-- Bar 2 (Blue - Tallest) -->
+      <rect x="46" y="24" width="16" height="60" rx="3" fill="#1cb0f6" stroke="#1899d6" stroke-width="2"/>
+      <!-- Bar 3 (Green) -->
+      <rect x="68" y="40" width="16" height="44" rx="3" fill="#58cc02" stroke="#46a302" stroke-width="2"/>
+      <!-- Grid dashes -->
+      <line x1="16" y1="36" x2="90" y2="36" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <line x1="16" y1="60" x2="90" y2="60" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3,3"/>
+    </svg>
+  `,
+
+  // Stacking Rings (Textbook exercise)
+  stacking_rings: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Center cone stick -->
+      <rect x="47" y="16" width="6" height="70" rx="3" fill="#cbd5e0"/>
+      <!-- Base stand -->
+      <ellipse cx="50" cy="86" rx="38" ry="8" fill="#718096" stroke="#4a5568" stroke-width="2"/>
+      <!-- Ring 1 (Bottom): Blue -->
+      <ellipse cx="50" cy="78" rx="34" ry="8" fill="#1cb0f6" stroke="#1899d6" stroke-width="2.5"/>
+      <!-- Ring 2: Green -->
+      <ellipse cx="50" cy="66" rx="28" ry="7" fill="#58cc02" stroke="#46a302" stroke-width="2.5"/>
+      <!-- Ring 3: Yellow -->
+      <ellipse cx="50" cy="54" rx="23" ry="6.5" fill="#ffd900" stroke="#d69e2e" stroke-width="2.5"/>
+      <!-- Ring 4: Red -->
+      <ellipse cx="50" cy="42" rx="18" ry="6" fill="#ff4b4b" stroke="#ea2b2b" stroke-width="2.5"/>
+      <!-- Ring 5 (Top): Orange topper ball -->
+      <circle cx="50" cy="24" r="10" fill="#ff9600" stroke="#e08500" stroke-width="2.5"/>
+    </svg>
+  `,
+
+  // Planting Seeds (Textbook algorithm)
+  plant_seeds: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Flower Pot -->
+      <polygon points="30,54 70,54 62,88 38,88" fill="#c05621" stroke="#7b341e" stroke-width="3"/>
+      <rect x="26" y="48" width="48" height="8" rx="3" fill="#dd6b20" stroke="#7b341e" stroke-width="2.5"/>
+      <!-- Soil -->
+      <ellipse cx="50" cy="52" rx="18" ry="4" fill="#4a2810"/>
+      <!-- Green Sprout Stem -->
+      <path d="M50 50 Q48 34 50 24" fill="none" stroke="#48bb78" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Leaves -->
+      <path d="M50 36 Q38 32 40 24 Q48 30 50 36" fill="#58cc02" stroke="#38a169" stroke-width="2"/>
+      <path d="M50 30 Q62 26 60 18 Q52 24 50 30" fill="#58cc02" stroke="#38a169" stroke-width="2"/>
+      <!-- Water Droplet -->
+      <path d="M74 34 C74 39, 68 44, 68 44 C68 44, 62 39, 62 34 C62 30, 68 22, 68 22 C68 22, 74 30, 74 34 Z" fill="#63b3ed"/>
+    </svg>
+  `,
+
+  // Robot Mascot
+  robot: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Antenna -->
+      <line x1="50" y1="12" x2="50" y2="24" stroke="#718096" stroke-width="3"/>
+      <circle cx="50" cy="12" r="5" fill="#ff4b4b"/>
+      <!-- Head -->
+      <rect x="22" y="24" width="56" height="42" rx="10" fill="#edf2f7" stroke="#4a5568" stroke-width="3"/>
+      <!-- Ears -->
+      <rect x="14" y="38" width="8" height="14" rx="3" fill="#cbd5e0" stroke="#4a5568" stroke-width="2"/>
+      <rect x="78" y="38" width="8" height="14" rx="3" fill="#cbd5e0" stroke="#4a5568" stroke-width="2"/>
+      <!-- Screen Visor -->
+      <rect x="30" y="32" width="40" height="18" rx="6" fill="#1a202c"/>
+      <!-- Glowing Eyes -->
+      <circle cx="42" cy="41" r="4" fill="#1cb0f6"/>
+      <circle cx="58" cy="41" r="4" fill="#1cb0f6"/>
+      <!-- Mouth grid -->
+      <rect x="36" y="54" width="28" height="6" rx="2" fill="#cbd5e0"/>
+      <line x1="43" y1="54" x2="43" y2="60" stroke="#4a5568" stroke-width="1.5"/>
+      <line x1="50" y1="54" x2="50" y2="60" stroke="#4a5568" stroke-width="1.5"/>
+      <line x1="57" y1="54" x2="57" y2="60" stroke="#4a5568" stroke-width="1.5"/>
+      <!-- Neck & Chest hint -->
+      <rect x="42" y="66" width="16" height="6" fill="#718096"/>
+      <rect x="28" y="72" width="44" height="18" rx="5" fill="#4a5568" stroke="#2d3748" stroke-width="2.5"/>
+      <circle cx="38" cy="80" r="3.5" fill="#58cc02"/>
+      <circle cx="50" cy="80" r="3.5" fill="#ffd900"/>
+      <circle cx="62" cy="80" r="3.5" fill="#1cb0f6"/>
+    </svg>
+  `,
+
+  // QR Code
+  qr_code: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <rect x="16" y="16" width="68" height="68" rx="6" fill="#ffffff" stroke="#cbd5e0" stroke-width="2.5"/>
+      <!-- Top-left corner finder -->
+      <rect x="22" y="22" width="20" height="20" fill="#1a202c"/>
+      <rect x="26" y="26" width="12" height="12" fill="#ffffff"/>
+      <rect x="29" y="29" width="6" height="6" fill="#1a202c"/>
+      <!-- Top-right corner finder -->
+      <rect x="58" y="22" width="20" height="20" fill="#1a202c"/>
+      <rect x="62" y="26" width="12" height="12" fill="#ffffff"/>
+      <rect x="65" y="29" width="6" height="6" fill="#1a202c"/>
+      <!-- Bottom-left corner finder -->
+      <rect x="22" y="58" width="20" height="20" fill="#1a202c"/>
+      <rect x="26" y="62" width="12" height="12" fill="#ffffff"/>
+      <rect x="29" y="65" width="6" height="6" fill="#1a202c"/>
+      <!-- Data modules -->
+      <rect x="46" y="24" width="6" height="6" fill="#1a202c"/>
+      <rect x="46" y="34" width="6" height="10" fill="#1a202c"/>
+      <rect x="36" y="46" width="10" height="6" fill="#1a202c"/>
+      <rect x="54" y="46" width="6" height="6" fill="#1a202c"/>
+      <rect x="66" y="46" width="10" height="6" fill="#1a202c"/>
+      <rect x="48" y="58" width="8" height="8" fill="#1a202c"/>
+      <rect x="62" y="62" width="14" height="14" fill="#1a202c"/>
+      <rect x="66" y="66" width="6" height="6" fill="#ffffff"/>
+    </svg>
+  `,
+
+  // Weather Sun & Cloud (Mr Dawson)
+  weather_sun: `
+    <svg viewBox="0 0 100 100" width="100%" height="100%" class="svg-art">
+      <!-- Sun rays -->
+      <circle cx="50" cy="46" r="22" fill="#ffd900" stroke="#f6ad55" stroke-width="3"/>
+      <line x1="50" y1="12" x2="50" y2="20" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="50" y1="72" x2="50" y2="80" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="16" y1="46" x2="24" y2="46" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="76" y1="46" x2="84" y2="46" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="26" y1="22" x2="32" y2="28" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="68" y1="64" x2="74" y2="70" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <line x1="74" y1="22" x2="68" y2="28" stroke="#f6ad55" stroke-width="4" stroke-linecap="round"/>
+      <!-- Cheerful face -->
+      <circle cx="43" cy="43" r="2.5" fill="#744210"/>
+      <circle cx="57" cy="43" r="2.5" fill="#744210"/>
+      <path d="M44 50 Q50 56 56 50" fill="none" stroke="#744210" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Soft Cloud in front -->
+      <path d="M46 76 L76 76 A10 10 0 0 0 76 56 A12 12 0 0 0 54 52 A9 9 0 0 0 46 60 A8 8 0 0 0 46 76 Z" fill="#edf2f7" stroke="#cbd5e0" stroke-width="2"/>
+    </svg>
   `
 };
 

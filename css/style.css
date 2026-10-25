@@ -123,6 +123,190 @@ body {
   height: 22px;
 }
 
+/* ================= Subject Switcher Segmented Bar ================= */
+.subject-bar {
+  background: #f7f9fa;
+  border-bottom: 2px solid var(--duo-gray);
+  padding: 8px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+}
+
+.subject-toggle-group {
+  display: flex;
+  background: #e9ecef;
+  padding: 4px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  gap: 6px;
+}
+
+.subject-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: none;
+}
+
+.subject-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.subject-tab-btn.active {
+  background: #ffffff;
+  color: var(--text-primary);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.subject-tab-btn.active#sub-btn-hindi {
+  border-bottom: 3px solid var(--primary-green);
+}
+
+.subject-tab-btn.active#sub-btn-computing {
+  border-bottom: 3px solid var(--sky-blue);
+}
+
+.sub-flag {
+  font-size: 16px;
+}
+
+.sub-title {
+  font-weight: 800;
+}
+
+.sub-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: var(--duo-gray);
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.subject-tab-btn.active .sub-badge {
+  background: var(--primary-green-light);
+  color: var(--primary-green-dark);
+}
+
+.subject-tab-btn.active#sub-btn-computing .sub-badge {
+  background: var(--sky-blue-light);
+  color: var(--sky-blue-dark);
+}
+
+/* ================= Scratch Blocks & Computing Question UI ================= */
+.scratch-block {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+  margin: 4px 0;
+}
+
+.scratch-block.motion {
+  background: #4c97ff;
+  border: 2px solid #3373cc;
+}
+
+.scratch-block.looks {
+  background: #9966ff;
+  border: 2px solid #7744dd;
+}
+
+.scratch-block.events {
+  background: #ffbf00;
+  border: 2px solid #d69e00;
+  color: #4a3400;
+}
+
+.scratch-block.control {
+  background: #ffab19;
+  border: 2px solid #d68700;
+  color: #ffffff;
+}
+
+.scratch-block-input {
+  background: #ffffff;
+  color: #333333;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.code-comparison-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0;
+  width: 100%;
+}
+
+.code-box {
+  background: #f8fafc;
+  border: 2px solid var(--duo-gray);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.code-box-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.data-table-container {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.data-table-container th {
+  background: var(--sky-blue);
+  color: #ffffff;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.data-table-container td {
+  background: #ffffff;
+  padding: 8px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--duo-gray);
+  font-weight: 600;
+}
+
 /* ================= Viewport & Screen Manager ================= */
 .screen-viewport {
   flex: 1;
